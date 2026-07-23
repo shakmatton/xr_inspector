@@ -53,6 +53,7 @@
     <Compile Include="Assets/VRTemplateAssets/Scripts/BooleanToggleVisualsController.cs" />
     <Compile Include="Assets/VRTemplateAssets/Scripts/RayAttachModifier.cs" />
     <Compile Include="Assets/VRTemplateAssets/Scripts/XRPokeFollowAffordanceFill.cs" />
+    <Compile Include="Assets/Scripts/Flashlight.cs" />
     <Compile Include="Assets/VRTemplateAssets/Scripts/BezierCurve.cs" />
     <Compile Include="Assets/VRTemplateAssets/Scripts/LaunchProjectile.cs" />
     <Compile Include="Assets/VRTemplateAssets/Scripts/HandSubsystemManager.cs" />
