@@ -1,20 +1,24 @@
+using System;
 using UnityEngine;
 
-public class Flashlight : MonoBehaviour
+/* Fazer:
+    - criar o Physics Ray (lembrar que Interaction Toolkit é sobre interações de botões/triggers, e que futuramente em algum momento daria apoio ao Ray)
+    - lembrar do uso das layers (relembrar uso "layerA && layerB") para detectar objetos que pertençam a um grupo (verificar em "Layer: Default", no Inspector)
+    - raio deve ter a informação de hit/miss, e deve permitir uso de máscara (para detectar apenas os objetos desejados de uma certa layer) 
+ */
+
+namespace Scripts
 {
-    // public Transform rightHand;
-    //
-    // public Vector3 localPosition;
-    // public Vector3 localRotation;
-    //
-    // private void Start()
-    // {
-    //     transform.SetParent(rightHand, false);
-    //
-    //     transform.localPosition = Vector3.zero;
-    //     transform.localRotation = Quaternion.identity;
-    //     
-    //     // transform.localPosition = localPosition;
-    //     // transform.localRotation = Quaternion.Euler(localRotation);
-    // }
+    public class Flashlight : MonoBehaviour
+    {
+        public LayerMask myLayer;
+
+        private void Start()
+        {
+            Ray ray = new Ray(transform.position, transform.forward);
+            Physics.Raycast(ray, out RaycastHit hit, 1000, myLayer);
+            //hit.collider.gameObject.     // continuar...
+        }
+        
+    }
 }
