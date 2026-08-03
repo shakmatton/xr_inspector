@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1fed4edc02564145933eae6a1cfce59b, type: 3}
-  m_Name: Inspection
+  m_Name: Inspection_Cylinder
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.Inspection
-  name: gghhjjj
+  inspectionName: Cylinder_Inspection

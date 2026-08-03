@@ -60,6 +60,7 @@
     <Compile Include="Assets/VRTemplateAssets/Scripts/DestroyObject.cs" />
     <Compile Include="Assets/VRTemplateAssets/Scripts/VideoTimeScrubControl.cs" />
     <Compile Include="Assets/Scripts/NewRayInteractor.cs" />
+    <Compile Include="Assets/Scripts/InspectionSite.cs" />
     <Compile Include="Assets/VRTemplateAssets/Scripts/Callout.cs" />
     <Compile Include="Assets/VRTemplateAssets/Scripts/CalloutGazeController.cs" />
     <Compile Include="Assets/Scripts/Inspection.cs" />
