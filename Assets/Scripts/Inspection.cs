@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// script que serve de suporte ao uso do ScriptableObject (um asset) como componente do objeto
+
 namespace Scripts
 {
     // Na aba Project do Unity, botão direito >> Create >> Systems >> Inspection

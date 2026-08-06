@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+// script responsável por gerenciar a parte lógica (no caso, se a inspeção foi feita ou não) e disparar eventos para demais scripts que estejam na escuta deles.
+
 namespace Scripts
 {
     public class InspectionManager : MonoBehaviour
@@ -9,7 +11,7 @@ namespace Scripts
         public static InspectionManager Instance { get; private set; }                          // Uso de Singleton
         [SerializeField] private List<Inspection> inspectionList;                               // Lista de Inspection (ver Inspection.cs): arrastar cada inspection para cada campo ali
         
-        public Dictionary<Inspection, bool> dictionaryInspection;                               // Uso de dicionário (Map de par/chave: ScriptableObject, boolean)    
+        public Dictionary<Inspection, bool> dictionaryInspection;                               // Uso de dicionário (Map de par/chave: ScriptableObject, boolean)
 
         public Action<Inspection> OnSingleInspected;                                            // evento de inspeção de um item do dicionário
         public Action OnFullInspected;                                                          // evento de inspeção de todos os items do dicionário
@@ -32,28 +34,30 @@ namespace Scripts
             }
         }
 
-        public void CheckInspection(Inspection inspection)                                      // evento a ser chamado por outros scripts (ex.: ColorChanger.cs)
+        public void CheckInspection(Inspection inspection)                                      // evento a ser chamado por outros scripts (ex.: Flashlight.cs)
         {
-            if (!dictionaryInspection.ContainsKey(inspection)) return;                          // Checagem de segurança: se não houver um inspection, não faz nada
+            if (!dictionaryInspection.ContainsKey(inspection)) return;                          // Checagem de segurança (caso não haja nenhum inspection arrastado para a lista) 
 
             if (dictionaryInspection[inspection] == false)                                      // se houver um item do dicionário contendo false...
             {
-                dictionaryInspection.Add(inspection, true);                                     // ...sinaliza esse item agora como contendo true.
+                dictionaryInspection.Add(inspection, true);                                     // ...sinaliza esse item agora como contendo true (par "inspection, true" adicionado).
 
                 OnSingleInspected?.Invoke(inspection);                                          // dispara evento de inspeção de objeto único inspecionado (false -> true)
             }
             
-            // Lógica:
-            // loop de iteração no dicionarioInspection
-            // verificar para cada item se ha um false no inspection
-            // se houver um false, retornar void
-            // após o loop, ativar o evento desejado
+            /* Acima, há a lógica que desemboca no evento OnSingleInspected.  (inspeção de um único objeto)
+               Abaixo, há a lógica que desemboca no evento OnFullInspected.   (inspeção de todos os objetos)
+                        
+            1) loop de iteração no dicionarioInspection
+            2) verificar para cada item se ha um false no inspection
+            3) se houver um false, retornar void
+            4) após o loop, ativar o evento desejado                                                    */
 
             
             // Forma 1 de foreach
-            foreach (KeyValuePair<Inspection, bool> dictionaryMap in dictionaryInspection)
+            foreach (KeyValuePair<Inspection, bool> dictionaryPair in dictionaryInspection)
             {
-                if (dictionaryMap.Value == false) return;
+                if (dictionaryPair.Value == false) return;
             }
 
             /* Forma 2 de foreach
@@ -61,8 +65,7 @@ namespace Scripts
             {
                 if (val == false)
                      return;
-            }
-            */
+            }                                                                                           */
             
             OnFullInspected?.Invoke();                                                          // dispara evento de inspeção de todos os objetos inspecionados (false -> true)
         }

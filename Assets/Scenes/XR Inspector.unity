@@ -667,6 +667,7 @@ GameObject:
   - component: {fileID: 337500815}
   - component: {fileID: 337500818}
   - component: {fileID: 337500819}
+  - component: {fileID: 337500820}
   m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
@@ -881,6 +882,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InspectionSite
   inspectionData: {fileID: 11400000, guid: 743889b0e91e8ae28847a37963284796, type: 2}
+--- !u!114 &337500820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 337500814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760f288fb5809fdab98a58eda1f267a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ColorChanger
+  colors:
+  - {r: 1, g: 1, b: 1, a: 0}
+  - {r: 0.30588236, g: 0.6156863, b: 0.79607844, a: 1}
+  - {r: 1, g: 0.9608901, b: 0.058823526, a: 1}
+  frequency: 0.7
+  _renderer: {fileID: 1842656078}
 --- !u!1 &406260634
 GameObject:
   m_ObjectHideFlags: 0
@@ -1746,6 +1765,7 @@ GameObject:
   - component: {fileID: 703503208}
   - component: {fileID: 703503211}
   - component: {fileID: 703503212}
+  - component: {fileID: 703503213}
   m_Layer: 7
   m_Name: Cylinder
   m_TagString: Untagged
@@ -1960,6 +1980,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InspectionSite
   inspectionData: {fileID: 11400000, guid: f25a9741be3dd665eb688391e3422060, type: 2}
+--- !u!114 &703503213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 703503207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760f288fb5809fdab98a58eda1f267a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ColorChanger
+  colors:
+  - {r: 1, g: 1, b: 1, a: 0}
+  - {r: 0.49803922, g: 0.34117648, b: 0.8235294, a: 1}
+  - {r: 1, g: 0.058823526, b: 0.46531734, a: 1}
+  frequency: 0.35
+  _renderer: {fileID: 1407057280}
 --- !u!1 &782764041
 GameObject:
   m_ObjectHideFlags: 0
@@ -4326,7 +4364,7 @@ GameObject:
   - component: {fileID: 1407057281}
   - component: {fileID: 1407057280}
   m_Layer: 7
-  m_Name: Visuals
+  m_Name: Visuals_Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5124,6 +5162,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5258331117553129771, guid: 6b12f432fa58c224baf0d659706362be, type: 3}
   m_PrefabInstance: {fileID: 1627520196}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1645953600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1645953602}
+  - component: {fileID: 1645953601}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1645953601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645953600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4705ad5d5e44d098ae4db6a38374241, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Scripts.InspectionManager
+  inspectionList: []
+--- !u!4 &1645953602
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645953600}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.49073, y: 1.8888, z: 3.89924}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1686051595
 GameObject:
   m_ObjectHideFlags: 0
@@ -5837,7 +5920,7 @@ GameObject:
   - component: {fileID: 1842656079}
   - component: {fileID: 1842656078}
   m_Layer: 7
-  m_Name: Visuals
+  m_Name: Visuals_Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6175,6 +6258,54 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &1940469248
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1940469250}
+  - component: {fileID: 1940469249}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1940469249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940469248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4705ad5d5e44d098ae4db6a38374241, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Scripts.InspectionManager
+  inspectionList:
+  - {fileID: 11400000, guid: da7f1054d9693c08180a8a3f8f010f25, type: 2}
+  - {fileID: 11400000, guid: f25a9741be3dd665eb688391e3422060, type: 2}
+  - {fileID: 11400000, guid: 743889b0e91e8ae28847a37963284796, type: 2}
+--- !u!4 &1940469250
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940469248}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.49073, y: 1.8888, z: 3.89924}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1959883322
 GameObject:
   m_ObjectHideFlags: 0
@@ -8271,6 +8402,7 @@ GameObject:
   - component: {fileID: 2224075744145570749}
   - component: {fileID: 2224075744145570752}
   - component: {fileID: 2224075744145570753}
+  - component: {fileID: 2224075744145570754}
   m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
@@ -8485,6 +8617,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InspectionSite
   inspectionData: {fileID: 11400000, guid: da7f1054d9693c08180a8a3f8f010f25, type: 2}
+--- !u!114 &2224075744145570754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2224075744145570736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760f288fb5809fdab98a58eda1f267a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ColorChanger
+  colors:
+  - {r: 1, g: 1, b: 1, a: 0}
+  - {r: 0.3254902, g: 0.6901961, b: 0.34901962, a: 1}
+  - {r: 1, g: 0.38039216, b: 0.05882353, a: 1}
+  frequency: 1
+  _renderer: {fileID: 7693707761708796116}
 --- !u!135 &2314411796325179377
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -11069,7 +11219,7 @@ GameObject:
   - component: {fileID: 5557861111069506590}
   - component: {fileID: 7693707761708796116}
   m_Layer: 7
-  m_Name: Visuals
+  m_Name: Visuals_Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11149,3 +11299,5 @@ SceneRoots:
   - {fileID: 619899599}
   - {fileID: 1240873659}
   - {fileID: 1829957347}
+  - {fileID: 1645953602}
+  - {fileID: 1940469250}
