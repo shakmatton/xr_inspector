@@ -39,9 +39,14 @@ public class ColorChanger : MonoBehaviour
 
     private void OnInspectionEnter(Inspection inspection)
     {
-         // inspectionManager.OnSingleInspected += ChangeColorRoutine();
+         // InspectionManager.Instance.OnSingleInspected += OnColorChange;         // callback (método executado quando evento é chamado (lembrando: += faz append em uma lista de métodos)
          inspectionManager.CheckInspection(inspection);
          StartCoroutine(ChangeColorRoutine());
+    }
+
+    private void OnColorChange(Inspection inspection)
+    {
+        
     }
     
     private void OnInspectionExit(Inspection inspection)

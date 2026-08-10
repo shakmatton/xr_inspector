@@ -45,8 +45,8 @@ namespace Scripts
                 OnSingleInspected?.Invoke(inspection);                                          // dispara evento de inspeção de objeto único inspecionado (false -> true)
             }
             
-            /* Acima, há a lógica que desemboca no evento OnSingleInspected.  (inspeção de um único objeto)
-               Abaixo, há a lógica que desemboca no evento OnFullInspected.   (inspeção de todos os objetos)
+            /* Acima, há a lógica que resulta no evento OnSingleInspected.  (inspeção de um único objeto)
+               Abaixo, há a lógica que resulta no evento OnFullInspected.   (inspeção de todos os objetos)
                         
             1) loop de iteração no dicionarioInspection
             2) verificar para cada item se ha um false no inspection
@@ -65,7 +65,7 @@ namespace Scripts
             {
                 if (val == false)
                      return;
-            }                                                                                           */
+            }                                                                                   */
             
             OnFullInspected?.Invoke();                                                          // dispara evento de inspeção de todos os objetos inspecionados (false -> true)
         }

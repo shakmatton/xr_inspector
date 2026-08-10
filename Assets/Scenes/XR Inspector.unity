@@ -900,6 +900,9 @@ MonoBehaviour:
   - {r: 1, g: 0.9608901, b: 0.058823526, a: 1}
   frequency: 0.7
   _renderer: {fileID: 1842656078}
+  colorProperty: _BaseColor
+  inspectionManager: {fileID: 0}
+  inspection: {fileID: 0}
 --- !u!1 &406260634
 GameObject:
   m_ObjectHideFlags: 0
@@ -1998,6 +2001,9 @@ MonoBehaviour:
   - {r: 1, g: 0.058823526, b: 0.46531734, a: 1}
   frequency: 0.35
   _renderer: {fileID: 1407057280}
+  colorProperty: _BaseColor
+  inspectionManager: {fileID: 0}
+  inspection: {fileID: 11400000, guid: f25a9741be3dd665eb688391e3422060, type: 2}
 --- !u!1 &782764041
 GameObject:
   m_ObjectHideFlags: 0
@@ -8635,6 +8641,9 @@ MonoBehaviour:
   - {r: 1, g: 0.38039216, b: 0.05882353, a: 1}
   frequency: 1
   _renderer: {fileID: 7693707761708796116}
+  colorProperty: _BaseColor
+  inspectionManager: {fileID: 0}
+  inspection: {fileID: 0}
 --- !u!135 &2314411796325179377
 SphereCollider:
   m_ObjectHideFlags: 0

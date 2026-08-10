@@ -11,6 +11,11 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 namespace Scripts
 {
+    /* POR QUE ESTE SCRIPT ENXERGA O INSPECTIONREGION.CS?
+       1. COMPILAÇÃO GLOBAL: No Unity, por padrão, todos os scripts públicos na pasta Assets são compilados no mesmo arquivo final (Assembly-CSharp.dll), tornando-os visíveis entre si.
+       2. REGRA DE NAMESPACE: Como 'InspectionRegion' está no escopo global (sem namespace), qualquer script dentro de um namespace (como o 'Scripts' aqui) consegue enxergá-lo livremente.  */
+    
+    
     public class Flashlight : MonoBehaviour
     {
         [SerializeField] private LayerMask myLayer;                             // escolher aqui a referência da layer "Highlighted Objects"
@@ -44,9 +49,23 @@ namespace Scripts
                 return;
 
             ray = new Ray(transform.position, transform.forward);    // Raio criado a partir da posição da lanterna, em sua origem e sentido por ela apontado (eixo Z azul).
-            if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, myLayer))  // Lança um Raycast usando o Ray criado. O if é true se raio atinge algum collider dentro de maxDistance. 
-                                                                                    
+
+            if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, myLayer))  // Lança um Raycast usando o Ray criado. O if é true se raio atinge algum collider dentro de maxDistance.
             {
+                /* Processo de pensamento:
+                    - Verificar se o gameobject que acabamos de colidir tem Inspection Region  (ok)
+                    - Se tiver, salvar esse inspection Region em uma variavel local            (ok)
+                    - Salvar o Inspection desse inspectionRegion (Fazer getter ou deixar publico) em um variavel local
+                    - Chamar CheckInspection do inspectionManager passando esse inspection                 */
+                
+                // O C# encontra a classe aqui porque ela é pública e global no projeto:
+                if (hit.collider.gameObject.GetComponent<InspectionRegion>() != null)
+                {
+                    InspectionRegion inspectionRegion = hit.collider.gameObject.GetComponent<InspectionRegion>();   // (inspectionRegion aponta pro gameObject que teve colisão com o ray)
+                }
+                
+                
+                
                 /* =========== Ver 1ª abordagem abaixo ===========
                  
                    Se layer "Highlighted Objects" for Layer 8 (por exemplo), ela retorna 8. Porém, myLayer.value não valeria 8, mas sim, 1 << 8 (ou seja, 256 (2 elevado à 8)).
