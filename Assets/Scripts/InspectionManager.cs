@@ -11,7 +11,7 @@ namespace Scripts
         public static InspectionManager Instance { get; private set; }                          // Uso de Singleton
         [SerializeField] private List<Inspection> inspectionList;                               // Lista de Inspection (ver Inspection.cs): arrastar cada inspection para cada campo ali
         
-        public Dictionary<Inspection, bool> dictionaryInspection;                               // Uso de dicionário (Map de par/chave: ScriptableObject, boolean)
+        public Dictionary<Inspection, bool> dictionaryInspection = new();   // Uso de dicionário (Map de par/chave: ScriptableObject, boolean)
 
         public Action<Inspection> OnSingleInspected;                                            // evento de inspeção de um item do dicionário
         public Action OnFullInspected;                                                          // evento de inspeção de todos os items do dicionário
@@ -40,9 +40,24 @@ namespace Scripts
 
             if (dictionaryInspection[inspection] == false)                                      // se houver um item do dicionário contendo false...
             {
-                dictionaryInspection.Add(inspection, true);                                     // ...sinaliza esse item agora como contendo true (par "inspection, true" adicionado).
+                // dictionaryInspection.Add(inspection, true);                                  // ...sinaliza esse item agora como contendo true (par "inspection, true" adicionado).
+                                                                                                // porém, ele adiciona uma inspection uma vez e não consegue continuar adicionando depois
+                
+                dictionaryInspection[inspection] = true;                                        // logo, esse é o workaround para o comentário acima
 
                 OnSingleInspected?.Invoke(inspection);                                          // dispara evento de inspeção de objeto único inspecionado (false -> true)
+                Debug.Log($"Inspection {inspection.name} has been inspected");                  // debug de inspeção
+                
+                
+                
+                
+                
+                // continuar resolvendo o comportamento atual: raio atinge objeto e ele fica registrado pra sempre no Debug.Log().
+                // fazer com que esse registro saia quando o raio parar de colidir com o objeto, e que volte a ser registrado quando voltar a colidir com ele de novo.
+                
+                
+                
+                
             }
             
             /* Acima, há a lógica que resulta no evento OnSingleInspected.  (inspeção de um único objeto)

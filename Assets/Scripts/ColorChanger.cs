@@ -19,7 +19,7 @@ public class ColorChanger : MonoBehaviour
     private Material _material;
     private int _currentColorIndex = 0;
     
-    [SerializeField] private InspectionManager inspectionManager;
+    [SerializeField] public InspectionManager inspectionManager;
     [SerializeField] private Inspection inspection;
 
     private void Start()
@@ -42,6 +42,7 @@ public class ColorChanger : MonoBehaviour
          // InspectionManager.Instance.OnSingleInspected += OnColorChange;         // callback (método executado quando evento é chamado (lembrando: += faz append em uma lista de métodos)
          inspectionManager.CheckInspection(inspection);
          StartCoroutine(ChangeColorRoutine());
+         //InspectionManager.OnSingleInspected += OnColorChange(inspection);
     }
 
     private void OnColorChange(Inspection inspection)
