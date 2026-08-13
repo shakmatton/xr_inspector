@@ -19,13 +19,11 @@ public class ColorChanger : MonoBehaviour
     private Material _material;
     private int _currentColorIndex = 0;
     
-    [SerializeField] public InspectionManager inspectionManager;
-    [SerializeField] private Inspection inspection;
+    // private Inspection inspection;
 
     private void Start()
     {
         _material = _renderer.material;
-        
         /* Sequência para descobrir o nome do shader e se ele possui a cor/propriedade "Color" ou "_BaseColor (que é o padrão para shaders do tipo Shader Graphs/Interactable)" 
          
         Debug.Log(_material.color);                                   
@@ -35,27 +33,30 @@ public class ColorChanger : MonoBehaviour
         Debug.Log(_material.HasColor("_BaseColor"));
         Debug.Log(_material.HasProperty("_Color"));
         Debug.Log(_material.HasProperty("_BaseColor"));         */
-    }
 
-    private void OnInspectionEnter(Inspection inspection)
-    {
-         // InspectionManager.Instance.OnSingleInspected += OnColorChange;         // callback (método executado quando evento é chamado (lembrando: += faz append em uma lista de métodos)
-         inspectionManager.CheckInspection(inspection);
-         StartCoroutine(ChangeColorRoutine());
-         //InspectionManager.OnSingleInspected += OnColorChange(inspection);
-    }
-
-    private void OnColorChange(Inspection inspection)
-    {
+        /* ====================== ATENÇÃO ======================
+         
+        O código (logo após esse comentário) foi inserida no Start, em vez de OnEnable, pois descobriu-se que o LifeCycle Unity nem sempre é respeitado!
+        Exemplo: em teoria, Awake de script 1 executaria antes de OnEnable do script 2... mas no Debug.Log, pode ocorrer que o OnEnable do script 2 ocorra antes do Awake do script 1!!!
+        Logo, o mais seguro é usar o Start, em vez de OnEnable, nos casos em que houver um Awake presente em algum script do projeto!           */
         
+        InspectionManager.Instance.OnSingleInspected += OnColorChange;              // ATENÇÃO: não fazer "OnColorChange()", pois o objetivo é apenas apontar para o método
+                                                                                    // (inscrição na lista de métodos do evento), e não executar ele de imediato (o callback).
+                                                                                    // Lembrar da diferença entre Inscrição X Callback nos eventos!
+                                                                                    
+                                                                                    // Lembrar que o 'OnSingleInspected" espera parâmetro "Inspector" e que retorna void
+                                                                                    // (ver comentário em InspectionManager.cs, em public Action<Inspection> OnSingleInspected;).
+    }
+
+    private void OnColorChange(Inspection inspection)                               // método é um callback (que só executa quando é chamado por um outro método externo)
+    {
+        StartCoroutine(ChangeColorRoutine());                                       // Atenção ao "ChangeColorRoutine()", em vez de "ChangeColorRoutine".
+                                                                                    // Isso porque queremos executar a rotina do IEnumerator abaixo. 
     }
     
-    private void OnInspectionExit(Inspection inspection)
-    {
-        StopCoroutine(ChangeColorRoutine());
-    }
-
-    private IEnumerator ChangeColorRoutine()
+    // StopCoroutine(ChangeColorRoutine());                                         // fazer em outro momento depois, para fazer objetos pararem de piscar
+    
+    private IEnumerator ChangeColorRoutine()                                        // aqui as cores mudam conforme a organização delas no objeto (ver editor).
     {
         while (true)
         {

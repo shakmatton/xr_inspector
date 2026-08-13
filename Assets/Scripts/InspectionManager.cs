@@ -11,10 +11,15 @@ namespace Scripts
         public static InspectionManager Instance { get; private set; }                          // Uso de Singleton
         [SerializeField] private List<Inspection> inspectionList;                               // Lista de Inspection (ver Inspection.cs): arrastar cada inspection para cada campo ali
         
-        public Dictionary<Inspection, bool> dictionaryInspection = new();   // Uso de dicionário (Map de par/chave: ScriptableObject, boolean)
-
+        public Dictionary<Inspection, bool> dictionaryInspection = new();                       // Uso de dicionário, já inicializado aqui (Map de par/chave: ScriptableObject, boolean)
+        
+        // Abaixo: todos os "public Action" retornam void por padrão! Lembrar disso em ColorChanger.cs (ler comentários ali).
+        // Há ainda outras maneiras de contornar isso, customizando métodos usando Func<> ou delegates... mas, por agora, vamos usar Action.
+        
         public Action<Inspection> OnSingleInspected;                                            // evento de inspeção de um item do dicionário
         public Action OnFullInspected;                                                          // evento de inspeção de todos os items do dicionário
+        
+        // Obs.: ver comentários do script ColorChanger.cs, sobre o uso de Awake X OnEnable X Start
         
         private void Awake()                                                                    // Checagem de segurança do Singleton: apenas o primeiro deles ficará "vivo" e ativo.
         {                                                                                       // Feito no Awake para garantir a não-concorrência com o Start() de outros objetos. 
@@ -31,12 +36,13 @@ namespace Scripts
             foreach (Inspection inspection in inspectionList)                                   // "Na inspectionList, iterar sobre cada item (chamado "inspection") do tipo Inspection"
             {
                 dictionaryInspection.Add(inspection, false);                                    // Método Add adiciona cada chave no dicionário com o valor false.
+                                                                                                // Em (inspection, bool), INSPECTION É A CHAVE! LEMBRAR DISSO, DAQUI EM DIANTE!
             }
         }
 
         public void CheckInspection(Inspection inspection)                                      // evento a ser chamado por outros scripts (ex.: Flashlight.cs)
         {
-            if (!dictionaryInspection.ContainsKey(inspection)) return;                          // Checagem de segurança (caso não haja nenhum inspection arrastado para a lista) 
+            if (!dictionaryInspection.ContainsKey(inspection)) return;                          // Checagem de segurança (caso não haja nenhuma chave inspection arrastada para a lista) 
 
             if (dictionaryInspection[inspection] == false)                                      // se houver um item do dicionário contendo false...
             {
@@ -47,17 +53,6 @@ namespace Scripts
 
                 OnSingleInspected?.Invoke(inspection);                                          // dispara evento de inspeção de objeto único inspecionado (false -> true)
                 Debug.Log($"Inspection {inspection.name} has been inspected");                  // debug de inspeção
-                
-                
-                
-                
-                
-                // continuar resolvendo o comportamento atual: raio atinge objeto e ele fica registrado pra sempre no Debug.Log().
-                // fazer com que esse registro saia quando o raio parar de colidir com o objeto, e que volte a ser registrado quando voltar a colidir com ele de novo.
-                
-                
-                
-                
             }
             
             /* Acima, há a lógica que resulta no evento OnSingleInspected.  (inspeção de um único objeto)

@@ -66,6 +66,7 @@
     <Compile Include="Assets/VRTemplateAssets/Scripts/CalloutGazeController.cs" />
     <Compile Include="Assets/Scripts/Inspection.cs" />
     <Compile Include="Assets/Scripts/InspectionRegion.cs" />
+    <Compile Include="Assets/Scripts/QuestChecker.cs" />
     <Compile Include="Assets/VRTemplateAssets/Scripts/StepManager.cs" />
     <Compile Include="Assets/VRTemplateAssets/Scripts/AnchorVisuals.cs" />
     <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
