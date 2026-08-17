@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: Inspection_Cylinder
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.Inspection
   inspectionName: Cylinder_Inspection
+  inspectionDescription: Inspecionar cilindro
+  inspectionTime: 0

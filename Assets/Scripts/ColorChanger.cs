@@ -11,13 +11,15 @@ public class ColorChanger : MonoBehaviour
     // Processar mudança de cor do objeto passado pelo InspectionManager
 
     [SerializeField] private List <Color> colors;
-    [SerializeField] private float frequency;
+    [SerializeField] private float delay = 1;                                   // intervalo de tempo entre as mudanças de cor
     
     [SerializeField] private Renderer _renderer;
     [SerializeField] private string colorProperty = "_BaseColor";               // controla a propriedade relacionada à cor do objeto
     
     private Material _material;
     private int _currentColorIndex = 0;
+
+    [SerializeField] private InspectionRegion inspectionRegion;
     
     // private Inspection inspection;
 
@@ -46,24 +48,28 @@ public class ColorChanger : MonoBehaviour
                                                                                     
                                                                                     // Lembrar que o 'OnSingleInspected" espera parâmetro "Inspector" e que retorna void
                                                                                     // (ver comentário em InspectionManager.cs, em public Action<Inspection> OnSingleInspected;).
+                                                                   
     }
 
     private void OnColorChange(Inspection inspection)                               // método é um callback (que só executa quando é chamado por um outro método externo)
     {
-        StartCoroutine(ChangeColorRoutine());                                       // Atenção ao "ChangeColorRoutine()", em vez de "ChangeColorRoutine".
-                                                                                    // Isso porque queremos executar a rotina do IEnumerator abaixo. 
+        if (inspectionRegion.Inspection == inspection)
+        {
+            StartCoroutine(ChangeColorRoutine());                                   // Atenção ao "ChangeColorRoutine()", em vez de "ChangeColorRoutine".
+        }                                                                           // Isso porque queremos executar a rotina do IEnumerator abaixo.
     }
-    
-    // StopCoroutine(ChangeColorRoutine());                                         // fazer em outro momento depois, para fazer objetos pararem de piscar
     
     private IEnumerator ChangeColorRoutine()                                        // aqui as cores mudam conforme a organização delas no objeto (ver editor).
     {
-        while (true)
+        int cycle = 3;                                                              // haverá 3 sequências de mudança de cor 
+        while (cycle >= 0)
         {
             _material.SetColor(colorProperty, colors[_currentColorIndex]);
             _currentColorIndex = (_currentColorIndex + 1) % colors.Count;
+
+            cycle--;
             
-            yield return new WaitForSeconds(frequency);
+            yield return new WaitForSeconds(delay);                                 // delay padrão: 1 segundo
         }
     }
 }

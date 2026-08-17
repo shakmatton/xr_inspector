@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: Inspection_Cube
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.Inspection
   inspectionName: Cube_Inspection
+  inspectionDescription: Inspecionar cubo
+  inspectionTime: 0

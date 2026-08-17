@@ -11,6 +11,7 @@ namespace Scripts
     public class Inspection : ScriptableObject                                                  // ScriptableObject: um asset, que lembra um .JSON
     {
         public string inspectionName;                                                           // identificador do objeto que possui um ScriptableObject
+        public string inspectionDescription;
         public float inspectionTime;                                                            // tempo de inspeção (hovering?)
     }
     

@@ -21,7 +21,7 @@ namespace Scripts
         [SerializeField] private LayerMask myLayer;                             // escolher aqui a referência da layer "Highlighted Objects"
         private Ray ray;                                                        // raio para interação XR
         private float maxDistance = 5f;                                         // alcance máximo do raio
-        private bool selected = false;                                          // selected: boolean que reflete status do controle (grabbed/ not grabbed)
+        private bool flashlightSelected = false;                                // flashlightSelected: boolean que reflete status do controle (grabbed/ not grabbed)
         
         [SerializeField] private XRBaseInteractable interactable;               // adiciona o Flashlight como objeto interactable (XR Grab Interactable)
 
@@ -33,19 +33,19 @@ namespace Scripts
 
         private void OnSelect(SelectEnterEventArgs args)                        
         {
-            // Chamado quando pega objeto Flashlight (selected)
-            selected = true;
+            // Chamado quando pega objeto Flashlight (flashlightSelected)
+            flashlightSelected = true;
         }
 
         private void OnDeselect(SelectExitEventArgs args)
         {
-            // Chamado quando larga objeto Flashlight (not selected)
-            selected = false;
+            // Chamado quando larga objeto Flashlight (not flashlightSelected)
+            flashlightSelected = false;
         }
 
         private void Update()                                                       // O Ray é recriado a cada frame para acompanhar a posição e a orientação atuais da lanterna.
         {
-            if (!selected)                                                          // Se não estiver selecionado, não faz nada... senão, executa abaixo:
+            if (!flashlightSelected)                                                // Se não estiver selecionado, não faz nada... senão, executa abaixo:
                 return;
 
             ray = new Ray(transform.position, transform.forward);    // Raio criado a partir da posição da lanterna, em sua origem e sentido por ela apontado (eixo Z azul).
@@ -72,6 +72,11 @@ namespace Scripts
                     InspectionManager.Instance.CheckInspection(inspection);         // chama o método CheckInspection do InspectionManager (passando como parâmetro a inspection)
                 }
                 
+            }
+            
+            Debug.DrawRay(ray.origin, ray.direction * 5, Color.red);                // ray (em debug mode) acompanha o transform da lanterna (ver red line na aba Scene)
+                
+            
                 // if ((myLayer.value & hit.collider.gameObject.layer) != 0)          // caso não houvesse "myLayer" em (Physics.Raycast(ray, out RaycastHit hit, maxDistance, myLayer)
                     // Debug.Log("Hit: " + hit.collider.name);
                     
@@ -111,9 +116,7 @@ namespace Scripts
 
                    // Se o resultado do AND for diferente de zero, significa que a Layer do objeto faz parte da LayerMask.
                    // Nesse caso, mostra-se o nome do objeto colidido por meio de seu collider.                         */     
-            }
             
-            Debug.DrawRay(ray.origin, ray.direction * 5, Color.red);                // ray (em debug mode) acompanha o transform da lanterna (ver red line na aba Scene)
         }
     }
 }
