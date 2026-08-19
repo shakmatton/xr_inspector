@@ -1,11 +1,20 @@
 using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Scripts
 {
     public class InspectionItem : MonoBehaviour
     {
-        [SerializeField] public Inspection inspection;
+        [SerializeField] public TextMeshProUGUI textMeshProUGUI;                     // TextMeshProUGUI deverá ser arrastado aqui aparecer neste inspectionItem
+        [SerializeField] public Image image;                                         // imagem (checkbox) deverá aparecer neste inspectionItem
+        
+        // Obs.: na hierarquia do editor Unity, deve-se fazer Image e Text serem filhos (separados) do gameObject InspectionItem (p/ ter maior controle do Transform de cada um). 
+        
+        [SerializeField] public Inspection inspection;                               // inspection deve ser arrastado aqui
+                                                                                     // para cada prefab, algum inspection (de esfera, cubo, cilindro) deve ser arrastado nesse campo.
+        
         
         /* Passos:
          
@@ -14,13 +23,26 @@ namespace Scripts
             - verificar como pegar uma referência para TextMeshPro e para Imagens.
             - fazer o mesmo para a imagem de "tick" da quest.
             - configurar reação aos eventos do InspectionManager (tal como ocorrido com o ColorChanger).         */
+        
+        
+        
+        
+            // continuar pensando como fazer as interações de eventos funcionarem para o gameObject... e no final, quando tudo tiver ok, criar 3 prefabs desse gameobject na cena......
 
-        private void Start()
+            
+            
+            
+            
+        private void Start()                                                        // Ideia: já de início (no Start()), aparecer no painel o nome das tarefas (quests).
         {
-            if (inspection != null)
+            if (inspection != null)                                              // Caso inspection já tenha sido arrastado...
             {
-                
+                textMeshProUGUI.text = inspection.inspectionDescription;            // ...fazer texto do inspectionDescription aparecer aqui.
+                                                                                    // Dica: p/ ver o nome das classes, clicar nos 3 pontinhos de cada componente (Image, TextMeshPro etc).
+                                                                                    // Em TextMeshPro, ver que a classe herda de outra (o que permite usar diretamente a string "text")
             }
+            
         }
+
     }
 }
