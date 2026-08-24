@@ -25,9 +25,6 @@ namespace Scripts
             - verificar como pegar uma referência para TextMeshPro e para Imagens.
             - fazer o mesmo para a imagem de "tick" da quest.
             - configurar reação aos eventos do InspectionManager (tal como ocorrido com o ColorChanger).         */
-        
-        
-            // continuar pensando como fazer as interações de eventos funcionarem para o gameObject... e no final, quando tudo tiver ok, criar 3 prefabs desse gameobject na cena......
             
             
         private void Start()                                                        // Ideia: já de início (no Start()), aparecer no painel o nome das tarefas (quests).
@@ -42,21 +39,29 @@ namespace Scripts
                 _checkboxImage.sprite = checkboxNo;                                 // Sprite do _checkboxImage aponta para o sprite original ("checkbox_no")
             }
             
-            InspectionManager.Instance.OnSingleInspected += SingleQuestCompleted;   // evento do InspectionManager aponta para o callback SingleQuestCompleted.
-            // InspectionManager.Instance.OnFullInspected += AllQuestsCompleted;
-        }
-        
-
-        private void SingleQuestCompleted(Inspection inspection)
-        {
-            // if (inspection.inspectionName == inspectionRegion.inspectionData)    // ?????
+            InspectionManager.Instance.OnSingleInspected += SingleInspectionCompleted;   // evento do InspectionManager aponta para o callback SingleInspectionCompleted.
+            // InspectionManager.Instance.OnFullInspected += AllInspectionsCompleted;    // isso foi feito em um novo script, dedicado apenas a essa tarefa (ver InspectionsCompleted.cs)
             
-            _checkboxImage.sprite = checkboxYes;                                    // sprite do checkbox atualizado para checkbox_yes 
+            InspectionManager.Instance.OnInspectionFailed += InspectionGameOver;         // evento que sinaliza "GameOver" quando tempo limite estourar!
+
+        }
+        private void InspectionGameOver()                                                // callback que desinscreve o método de single inspection (evita que ele ocorra após o "Game Over") 
+        {
+            InspectionManager.Instance.OnSingleInspected -= SingleInspectionCompleted;   
+            Debug.Log("Tempo esgotado para Single Inspection!\n You lose!");
+            
+            
+            // pensar em como evitar que isso fique repetindo eternamente no console (mesmo problema de InspectionGameOver(), em InspectionCompleted.cs).
+            
+            
         }
 
-        private void Update()
+        private void SingleInspectionCompleted(Inspection inspection)
         {
-            
+            if (this.inspection == inspection)
+            {
+                _checkboxImage.sprite = checkboxYes;                                    // sprite do checkbox atualizado para checkbox_yes
+            }    
         }
     }
 }

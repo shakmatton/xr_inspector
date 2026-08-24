@@ -9,15 +9,23 @@ namespace Scripts
     public class InspectionManager : MonoBehaviour
     {
         public static InspectionManager Instance { get; private set; }                          // Uso de Singleton
+        
         [SerializeField] private List<Inspection> inspectionList;                               // Lista de Inspection (ver Inspection.cs): arrastar cada inspection para cada campo ali
         
         public Dictionary<Inspection, bool> dictionaryInspection = new();                       // Uso de dicionário, já inicializado aqui (Map de par/chave: ScriptableObject, boolean)
+
+        [SerializeField] private float timeLimit = 10f;
+        
+        
         
         // Abaixo: todos os "public Action" retornam void por padrão! Lembrar disso em ColorChanger.cs (ler comentários ali).
         // Há ainda outras maneiras de contornar isso, customizando métodos usando Func<> ou delegates... mas, por agora, vamos usar Action.
         
         public Action<Inspection> OnSingleInspected;                                            // evento de inspeção de um item do dicionário
         public Action OnFullInspected;                                                          // evento de inspeção de todos os items do dicionário
+        public Action OnInspectionFailed;
+        
+        
         
         // Obs.: ver comentários do script ColorChanger.cs, sobre o uso de Awake X OnEnable X Start
         
@@ -37,7 +45,7 @@ namespace Scripts
             {
                 dictionaryInspection.Add(inspection, false);                                    // Método Add adiciona cada chave no dicionário com o valor false.
                                                                                                 // Em (inspection, bool), INSPECTION É A CHAVE! LEMBRAR DISSO, DAQUI EM DIANTE!
-            }                                                                
+            }
         }
 
         public void CheckInspection(Inspection inspection)                                      // evento a ser chamado por outros scripts (ex.: Flashlight.cs)
@@ -78,6 +86,23 @@ namespace Scripts
             }                                                                                   */
             
             OnFullInspected?.Invoke();                                                          // dispara evento de inspeção de todos os objetos inspecionados (false -> true)
+        }
+
+        public void OnTimeLimit()
+        {
+            if (timeLimit >= 0) return;
+            
+            OnInspectionFailed?.Invoke();   
+            // Debug.Log("Tempo esgotado!\n You lose!");
+        }
+
+        private void Update()
+        {
+            if (timeLimit >= 0) {
+                Debug.Log($"Tempo restante: {timeLimit}");
+                timeLimit -= Time.deltaTime;
+            }
+            OnTimeLimit();
         }
     }
 }

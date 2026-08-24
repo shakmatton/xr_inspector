@@ -71,7 +71,6 @@ namespace Scripts
                                                                                     
                     InspectionManager.Instance.CheckInspection(inspection);         // chama o método CheckInspection do InspectionManager (passando como parâmetro a inspection)
                 }
-                
             }
             
             Debug.DrawRay(ray.origin, ray.direction * 5, Color.red);                // ray (em debug mode) acompanha o transform da lanterna (ver red line na aba Scene)
