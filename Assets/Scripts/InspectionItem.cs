@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 namespace Scripts
 {
+    // Scripts que tratam de UI (como esse) já podem ser considerados como UI.
+    // Assim, lembrar que a lógica fica toda concentrada no InspectionManager.cs ("cérebro/fonte da verdade"), e os scripts de UI apenas reagem a tudo que já foi processado nele. 
+    
     public class InspectionItem : MonoBehaviour
     {
         [SerializeField] public TextMeshProUGUI textMeshProUGUI;                     // TextMeshProUGUI deverá ser arrastado aqui aparecer neste inspectionItem
@@ -17,7 +20,7 @@ namespace Scripts
         
         [SerializeField] public Inspection inspection;                               // inspection deve ser arrastado aqui
                                                                                      // para cada prefab, algum inspection (de esfera, cubo, cilindro) deve ser arrastado nesse campo.
-        
+                                                                                     
         /* Passos:
          
             - criar o componente no editor, e arrastar o Inspection para o campo inspection.  (ok)
@@ -41,19 +44,6 @@ namespace Scripts
             
             InspectionManager.Instance.OnSingleInspected += SingleInspectionCompleted;   // evento do InspectionManager aponta para o callback SingleInspectionCompleted.
             // InspectionManager.Instance.OnFullInspected += AllInspectionsCompleted;    // isso foi feito em um novo script, dedicado apenas a essa tarefa (ver InspectionsCompleted.cs)
-            
-            InspectionManager.Instance.OnInspectionFailed += InspectionGameOver;         // evento que sinaliza "GameOver" quando tempo limite estourar!
-
-        }
-        private void InspectionGameOver()                                                // callback que desinscreve o método de single inspection (evita que ele ocorra após o "Game Over") 
-        {
-            InspectionManager.Instance.OnSingleInspected -= SingleInspectionCompleted;   
-            Debug.Log("Tempo esgotado para Single Inspection!\n You lose!");
-            
-            
-            // pensar em como evitar que isso fique repetindo eternamente no console (mesmo problema de InspectionGameOver(), em InspectionCompleted.cs).
-            
-            
         }
 
         private void SingleInspectionCompleted(Inspection inspection)

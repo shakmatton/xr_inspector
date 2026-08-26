@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fed4edc02564145933eae6a1cfce59b, type: 3}
   m_Name: Inspection_Cube
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.Inspection
-  inspectionName: Cube_Inspection
+  inspectionName: Cube
   inspectionDescription: Inspecionar cubo
   inspectionTime: 0

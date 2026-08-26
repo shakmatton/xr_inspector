@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fed4edc02564145933eae6a1cfce59b, type: 3}
   m_Name: Inspection_Sphere
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.Inspection
-  inspectionName: Sphere_Inspection
+  inspectionName: Sphere
   inspectionDescription: Inspecionar esfera
   inspectionTime: 0

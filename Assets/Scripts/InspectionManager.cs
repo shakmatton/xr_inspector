@@ -1,8 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 // script responsável por gerenciar a parte lógica (no caso, se a inspeção foi feita ou não) e disparar eventos para demais scripts que estejam na escuta deles.
+
+// Rider IDE: Atalho "Ctrl+Shift+F" mostra um termo que já foi usado ao longo do projeto. Útil para relembrar como escrever um método.
+// Exemplo: "Como que era mesmo que eu tinha definido o IEnumerator?").
 
 namespace Scripts
 {
@@ -17,14 +21,12 @@ namespace Scripts
         [SerializeField] private float timeLimit = 10f;
         
         
-        
         // Abaixo: todos os "public Action" retornam void por padrão! Lembrar disso em ColorChanger.cs (ler comentários ali).
         // Há ainda outras maneiras de contornar isso, customizando métodos usando Func<> ou delegates... mas, por agora, vamos usar Action.
         
         public Action<Inspection> OnSingleInspected;                                            // evento de inspeção de um item do dicionário
         public Action OnFullInspected;                                                          // evento de inspeção de todos os items do dicionário
         public Action OnInspectionFailed;
-        
         
         
         // Obs.: ver comentários do script ColorChanger.cs, sobre o uso de Awake X OnEnable X Start
@@ -46,7 +48,16 @@ namespace Scripts
                 dictionaryInspection.Add(inspection, false);                                    // Método Add adiciona cada chave no dicionário com o valor false.
                                                                                                 // Em (inspection, bool), INSPECTION É A CHAVE! LEMBRAR DISSO, DAQUI EM DIANTE!
             }
+
+            StartCoroutine(TimeUp());                                                    // inicio uma Coroutine (abaixo), para esperar o tempo-limite para a falha do procedimento.
+        }                                                                                       // Aqui, é garantido que a falha (detectada pelo InspectionManager.cs) já aconteceu.
+
+        private IEnumerator TimeUp()                                                            // definido um intervalo de tempo aqui, em vez de usar o Update
+        {                                                                                       // Update é melhor para algo que ocorre do começo ao fim. 
+            yield return new WaitForSeconds(timeLimit);                                         // Em TimeUp(), só preciso que algo ocorra até um limite de tempo (default: 10 segundos) 
+            OnInspectionFailed?.Invoke();                                                       // Depois disso, disparo o evento OnInspectionFailed.
         }
+        
 
         public void CheckInspection(Inspection inspection)                                      // evento a ser chamado por outros scripts (ex.: Flashlight.cs)
         {
@@ -86,23 +97,6 @@ namespace Scripts
             }                                                                                   */
             
             OnFullInspected?.Invoke();                                                          // dispara evento de inspeção de todos os objetos inspecionados (false -> true)
-        }
-
-        public void OnTimeLimit()
-        {
-            if (timeLimit >= 0) return;
-            
-            OnInspectionFailed?.Invoke();   
-            // Debug.Log("Tempo esgotado!\n You lose!");
-        }
-
-        private void Update()
-        {
-            if (timeLimit >= 0) {
-                Debug.Log($"Tempo restante: {timeLimit}");
-                timeLimit -= Time.deltaTime;
-            }
-            OnTimeLimit();
-        }
+        }   
     }
 }
