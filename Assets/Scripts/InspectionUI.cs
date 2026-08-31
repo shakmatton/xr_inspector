@@ -1,5 +1,6 @@
 using System;
 using Scripts;
+using TMPro;
 using UnityEngine;
 
 // Script que trata de UI, usado no objeto "QuestUI". Concentra e ativa/desativa objetos filhos/netos do painel.
@@ -7,41 +8,47 @@ using UnityEngine;
 
 public class InspectionUI : MonoBehaviour
 {
-    [SerializeField] private GameObject questContent;                       // esse gameObject se refere ao outro GameObject (que mostra a tela "All Inspections Completed!")
+    [SerializeField] private GameObject inspectionList;                     // gameObject que mostra a tela original de InspectionList
+    [SerializeField] private GameObject inspectionVictory;                  // gameObject "painel com mensagem de Vitória" 
+    [SerializeField] private GameObject inspectionFailed;                   // gameObject "painel com mensagem de GameOver"
+    
+    [SerializeField] private TextMeshProUGUI inspectionTimer;               // atenção: não confundir TextMeshProUGUI com TextMeshPro (verificar no painel Hierarchy do editor) 
 
-    [SerializeField] private GameObject inspectionVictory;
-    [SerializeField] private GameObject inspectionFailed;
-    [SerializeField] private GameObject inspectionTimer;
+    private float time;                                                     // poderia ter feito como variável local em Start(), ou global (como feito aqui).
     
     private void Start()
     {
-        InspectionManager.Instance.OnFullInspected += ShowVictoryScreen;
+        InspectionManager.Instance.OnFullInspected += ShowVictoryScreen;             // evento de "Vitória"
         InspectionManager.Instance.OnInspectionFailed += InspectionGameOver;         // evento que sinaliza "GameOver" quando tempo limite estourar!
+        InspectionManager.Instance.OnCountTime += InspectionTimer;                   // evento de contagem de tempo no painel 
         
-        // abaixo: todos os gameObjects já possuem um transform por padrão... por isso, é possível desabilitar a "caixinha" do gameObject desse script fazendo o comando abaixo: 
+        // Abaixo: todos os gameObjects já possuem um transform por padrão...
+        // Por isso, é possível desabilitar a "caixinha" do gameObject desse script fazendo o comando abaixo: 
         
-        questContent.SetActive(true);                                        // no editor, gameObject é tudo que mostra os seus componentes
+        inspectionList.SetActive(true);                                        // no editor, gameObject é tudo que mostra os seus componentes
         inspectionVictory.SetActive(false);
         inspectionFailed.SetActive(false);
         
         // não confundir com componente (uma parte integrante/componente do gameObject)
+
+        time = InspectionManager.Instance.TimeLimit;
+        inspectionTimer.text = time.ToString();
     }
     
-    private void InspectionGameOver()                                        
+    private void InspectionGameOver()                               // desabilita o painel com as tarefas (inspectionList), e habilita o painel de Inspections Failed ("GameOver").
     {
-        questContent.SetActive(false);
+        inspectionList.SetActive(false);
         inspectionFailed.SetActive(true);
     }
 
-    private void ShowVictoryScreen()                                        // desabilita o painel com as "quests" (questContent), e habilita o painel de Inspections Completed.
+    private void ShowVictoryScreen()                                // desabilita o painel com as tarefas (inspectionList), e habilita o painel de Inspections Completed ("Vitória").
     {
-        questContent.SetActive(false);
+        inspectionList.SetActive(false);
         inspectionVictory.SetActive(true);
     }
     
-    // private void InspectionTimer()                   // ARRUMAR A QUESTÃO DO CONTADOR ATUALIZADO AQUI                                        
-    // {
-    //     questContent.SetActive(false);
-    //     inspectionFailed.SetActive(true);
-    // }
+    private void InspectionTimer(float timeLimit)                   // faz a UI mostrar uma contagem regressiva
+    {
+        inspectionTimer.text = timeLimit.ToString();
+    }
 }

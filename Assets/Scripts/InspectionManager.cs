@@ -20,10 +20,8 @@ namespace Scripts
 
         [SerializeField] private float timeLimit = 10f;
         private bool itsOver = false;                                                           // flag de controle para impedir outros eventos após evento OnInspectionFailed.
-        private bool isCompleted = false;                                                           // flag de controle para evento OnFullInspection.
         
-        private Coroutine inspectionCoroutine;                                                  // dispara ou para o método TimeUp().
-        private TextMeshProUGUI countdown;
+        private Coroutine inspectionTimeCoroutine;                                                  // dispara ou para o método TimeUp().
         
         
         // Abaixo: todos os "public Action" retornam void por padrão! Lembrar disso em ColorChanger.cs (ler comentários ali).
@@ -32,8 +30,15 @@ namespace Scripts
         public Action<Inspection> OnSingleInspected;                                            // evento de inspeção de um item do dicionário
         public Action OnFullInspected;                                                          // evento de inspeção de todos os items do dicionário
         public Action OnInspectionFailed;
+        public Action<float> OnCountTime;
         
         // Obs.: ver comentários do script ColorChanger.cs, sobre o uso de Awake X OnEnable X Start
+        
+        public float TimeLimit {                                                                // Property (getter)
+            get {                                                                    
+                return timeLimit;                                                               // útil para o InspectionUI.cs
+            }
+        }
         
         private void Awake()                                                                    // Checagem de segurança do Singleton: apenas o primeiro deles ficará "vivo" e ativo.
         {                                                                                       // Feito no Awake para garantir a não-concorrência com o Start() de outros objetos. 
@@ -53,7 +58,7 @@ namespace Scripts
                                                                                                 // Em (inspection, bool), INSPECTION É A CHAVE! LEMBRAR DISSO, DAQUI EM DIANTE!
             }
 
-            inspectionCoroutine = StartCoroutine(TimeUp());                              // inicio uma Coroutine (abaixo), para esperar o tempo-limite para a falha do procedimento.
+            inspectionTimeCoroutine = StartCoroutine(TimeUp());                              // inicio uma Coroutine (abaixo), para esperar o tempo-limite para a falha do procedimento.
         }                                                                                       // Aqui, é garantido que a falha (detectada pelo InspectionManager.cs) já aconteceu.
 
         /*private IEnumerator TimeUp()                                                          // definido um intervalo de tempo aqui, em vez de usar o Update
@@ -64,22 +69,17 @@ namespace Scripts
         }*/
         
 
-        private IEnumerator TimeUp()                     // ========== REVISAR ESSE MÉTODO E CONSERTAR AQUI E NO SCRIPT DE inspectionUI.cs 
+        private IEnumerator TimeUp()                     // vai disparar eventos de Sucesso ou Falha de inspeção (futuramente ouvidos por método de InspectionUI.cs)
         {
-            countdown.text = timeLimit.ToString();       // inicia mostrando contador (decidir se começa de zero ou de timeLimit)
-            
-            while (timeLimit > 0)
+            while (timeLimit > 0)                        // se ainda há tempo...
             {
-                yield return new WaitForSeconds(1);      // espera um segundo
-                
-                timeLimit--;                             // atualiza contador
-                countdown.text = timeLimit.ToString();   // mostra contador atualizado com (timeLimit - 1)
+                yield return new WaitForSeconds(1);      // ...espera um segundo
+                timeLimit--;                             // ...atualiza contador
 
-                if (isCompleted)                         // se tudo foi inspecionado ok...
-                {
-                    StopCoroutine(inspectionCoroutine);  // pára o contador
-                }                         
+                OnCountTime?.Invoke(timeLimit);          // dispara evento de contagem 
             }
+
+            OnInspectionFailed?.Invoke();                // dispara evento de falha de inspeção, pois o tempo foi esgotado aqui.
         }
         
 
@@ -108,9 +108,8 @@ namespace Scripts
                 if (dictionaryPair.Value == false) return;
             }
             
-            isCompleted = true;                                                                 // flag de apoio à coroutine TimeUp().
-            OnFullInspected?.Invoke();                                                          // dispara evento de inspeção de todos os objetos inspecionados (false -> true)
-            StopCoroutine(inspectionCoroutine);   
+            StopCoroutine(inspectionTimeCoroutine);                                             // pára a rotina com e o contador de tempo... 
+            OnFullInspected?.Invoke();                                                          // ... e dispara evento de inspeção de todos os objetos inspecionados (false -> true)
         }   
     }
 }

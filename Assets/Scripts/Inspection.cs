@@ -12,7 +12,7 @@ namespace Scripts
     {
         public string inspectionName;                                                           // identificador do objeto que possui um ScriptableObject
         public string inspectionDescription;
-        public float inspectionTime;                                                            // tempo de inspeção (hovering?)
+        public float inspectionTime;                                                            // tempo de inspeção (hovering): ver comentários iniciais em Flashlight.cs
     }
     
     // A ideia é indicar que os objetos podem ter os mesmos campos identificadores. 
