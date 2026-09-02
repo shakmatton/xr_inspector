@@ -48,12 +48,11 @@ public class ColorChanger : MonoBehaviour
                                                                                     
                                                                                     // Lembrar que o 'OnSingleInspected" espera parâmetro "Inspector" e que retorna void
                                                                                     // (ver comentário em InspectionManager.cs, em public Action<Inspection> OnSingleInspected;).
-                                                                   
     }
 
     private void OnColorChange(Inspection inspection)                               // método é um callback (que só executa quando é chamado por um outro método externo)
     {
-        if (inspectionRegion.Inspection == inspection)
+        if (inspectionRegion.Inspection == inspection)    
         {
             StartCoroutine(ChangeColorRoutine());                                   // Atenção ao "ChangeColorRoutine()", em vez de "ChangeColorRoutine".
         }                                                                           // Isso porque queremos executar a rotina do IEnumerator abaixo.

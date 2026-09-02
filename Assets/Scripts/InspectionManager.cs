@@ -65,7 +65,6 @@ namespace Scripts
         {                                                                                       // Update é melhor para algo que ocorre do começo ao fim. 
             yield return new WaitForSeconds(timeLimit);                                         // Em TimeUp(), só preciso que algo ocorra até um limite de tempo (default: 10 segundos) 
             OnInspectionFailed?.Invoke();                                                       // Depois disso, disparo o evento OnInspectionFailed.
-            itsOver = true;
         }*/
         
 
@@ -78,7 +77,8 @@ namespace Scripts
 
                 OnCountTime?.Invoke(timeLimit);          // dispara evento de contagem 
             }
-
+            
+            itsOver = true;
             OnInspectionFailed?.Invoke();                // dispara evento de falha de inspeção, pois o tempo foi esgotado aqui.
         }
         

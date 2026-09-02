@@ -43,7 +43,6 @@ namespace Scripts
             }
             
             InspectionManager.Instance.OnSingleInspected += SingleInspectionCompleted;   // evento do InspectionManager aponta para o callback SingleInspectionCompleted.
-            // InspectionManager.Instance.OnFullInspected += AllInspectionsCompleted;    // isso foi feito em um novo script, dedicado apenas a essa tarefa (ver InspectionsCompleted.cs)
         }
 
         private void SingleInspectionCompleted(Inspection inspection)
