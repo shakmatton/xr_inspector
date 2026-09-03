@@ -105,7 +105,7 @@ namespace Scripts
             // Forma 1 de foreach                                                               // Forma 2 de foreach
             foreach (KeyValuePair<Inspection, bool> dictionaryPair in dictionaryInspection)     // foreach (var val in dictionaryInspection.Values) 
             {                                                                                   //      if (val == false) return;
-                if (dictionaryPair.Value == false) return;
+                if (dictionaryPair.Value == false) return;      // se ainda houver algum objeto não inspecionado, sai do método para evitar chegar ao ponto de "StopCoroutine" abaixo.
             }
             
             StopCoroutine(inspectionTimeCoroutine);                                             // pára a rotina com e o contador de tempo... 
