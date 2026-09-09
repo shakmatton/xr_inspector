@@ -19,9 +19,9 @@ namespace Scripts
         private bool flashlightSelected = false;
 
         private float hoverTime;                                    // tempo de hover em um objeto
-        private bool hoverFlag = false;                             // flag de controle sobre se o objeto sofre hover ou não
+        // private bool hoverFlag = false;                             // flag de controle sobre se o objeto sofre hover ou não
         private string hoverObjectName;                             // flag de controle sobre qual é o nome do objeto corrente    
-        private string previousObj = "";                            // registra último objeto a sofrer hover
+        private string currentObj = "";                            // registra último objeto a sofrer hover
 
         private void Start()                                                   
         {
@@ -56,27 +56,48 @@ namespace Scripts
                 // 3 - pensar no caso de 2 objetos grudados: como fica a questao do hover e do reset?
                 
                 
-                // VERIFICAR POR QUE NÃO FUNCIONA O RAIO.
-                // Problema ocorre tanto no script Flashlight.cs como no script FlashlightCleanVersion.cs.
+                // VERIFICAR POR QUE NÃO FUNCIONA O CASO 3...
                 
                 
+                
+                // TENTAR DE NOVO CONSERTAR O TRECHO ABAIXO (FAZER DEBUG.LOG() COM TEMPO DO OBJETO NO CONSOLE...)
                 
                 if (inspectionRegion != null)                                   // objeto inspecionado
                 {
-                    // no IF abaixo: primeiro frame detectado permite pegar o inspectionTime (duração de hover) do objeto
+
+                    hoverObjectName = inspectionRegion.Inspection.inspectionName;
+
+                    if (currentObj != hoverObjectName)
+                    {
+                        // if (!hoverFlag)                                                
+                        // {
+                        //     hoverFlag = true;                                          
+                        hoverTime = inspectionRegion.Inspection.inspectionTime;
+                        currentObj = hoverObjectName;
+                        // }     
+                    }
                     
-                    if (!hoverFlag)                                                // inicialmente falso
-                    {
-                        hoverFlag = true;                                          // faz com que o if não seja mais executado no próximo ciclo de Update(). 
+                    // // no IF abaixo: primeiro frame detectado permite pegar o inspectionTime (duração de hover) do objeto
+                    // if (!hoverFlag)                                                // inicialmente falso
+                    // {
+                    //     hoverFlag = true;                                          // faz com que o if não seja mais executado no próximo ciclo de Update(). 
+                    //
+                    //     hoverTime = inspectionRegion.Inspection.inspectionTime;    // Pega o JSON inteiro (inspectionData) do inspectionRegion. O acesso ao inspectionTime se dá via struct.
+                    // }
 
-                        hoverTime = inspectionRegion.Inspection.inspectionTime;    // Pega o JSON inteiro (inspectionData) do inspectionRegion. O acesso ao inspectionTime se dá via struct.
-                    }
+                    // // Nesse if, asseguro a atualização do tempo de inspeção do objeto atual (deixa de ser o tempo antigo)
+                    // if (currentObj != hoverObjectName)                            // se o objeto não for mais o mesmo (ainda que em estado de hover ativo)... 
+                    // {
+                    //     hoverTime = inspectionRegion.Inspection.inspectionTime;    // ... atualizo e considero o tempo do novo objeto 
+                    // }
 
-                    // Nesse if, asseguro a atualização do tempo de inspeção do objeto atual (deixa de ser o tempo antigo)
-                    if (previousObj != hoverObjectName)                            // se o objeto não for mais o mesmo (ainda que em estado de hover ativo)... 
-                    {
-                        hoverTime = inspectionRegion.Inspection.inspectionTime;    // ... atualizo e considero o tempo do novo objeto 
-                    }
+                    
+                    // if (currentObj != hoverObjectName)
+                    // {
+                    //     hoverFlag = false;
+                    //     currentObj = hoverObjectName;
+                    //     return;
+                    // }
 
                     hoverTime -= Time.deltaTime;                                   // tempo do polígono sob hover é decrementado
                     
@@ -87,10 +108,11 @@ namespace Scripts
                 }
                 else    // inspectionRegion virou nulo, pois raio apontou para fora do objeto...
                 {
-                    hoverFlag = false;     // se raio sair do objeto
+                    // hoverFlag = false;     // se raio sair do objeto
+                    currentObj = "";
                 }
 
-                previousObj = hoverObjectName;
+                // currentObj = hoverObjectName;
             }
             
             Debug.DrawRay(ray.origin, ray.direction * 5, Color.red);      
