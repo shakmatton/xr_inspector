@@ -19,7 +19,6 @@ namespace Scripts
         private bool flashlightSelected = false;
 
         private float hoverTime;                                            // tempo de hover em um objeto
-        // private bool hoverFlag = false;                                  // flag de controle sobre se o objeto sofre hover ou não
         private string hoverObjectName;                                     // flag de controle sobre qual é o nome do objeto corrente    
         private string currentObj = "";                                     // ponteiro que registra último objeto a sofrer hover
 
@@ -56,33 +55,47 @@ namespace Scripts
                 // 3 - pensar no caso de 2 objetos grudados: como fica a questao do hover e do reset?
                 
                 
-                // PROBLEMA: AO SAIR E RETORNAR AO MESMO OBJETO, O TIMER NÃO RESETA! VERIFICAR (VER ARQUIVO teste.cs depois. na área de trabalho)...
+                /* PROBLEMA: AO SAIR E RETORNAR AO MESMO OBJETO, O TIMER NÃO RESETA! VERIFICAR (VER ARQUIVO teste.cs depois, na área de trabalho)...
+                   SOLUÇÂO: ver último else do código (currentObj = "").
+
+                 * Explicação:
+                 *
+                 * O currentObj = "" só é executado quando o Physics.Raycast acerta um collider que não tem InspectionRegion.
+                 * Mas na prática, quando você "sai" de um objeto olhando para outro lugar, o mais comum é o raio não acertar nada dentro do maxDistance/myLayer
+                 * — ou seja, Physics.Raycast retorna false, e o bloco inteiro (inclusive o else que reseta currentObj) é pulado.
+
+                   Resultado: currentObj continua guardando o nome do último objeto mirado. 
+                   Quando você volta a mirar nesse mesmo objeto, currentObj != hoverObjectName é false (porque nunca foi resetado), então o hoverTime nunca é reatribuído
+                    — ele continua de onde parou (geralmente negativo/zerado), em vez de reiniciar a contagem.                 */
                 
                 
-                if (inspectionRegion != null)                                                                // objeto inspecionado
+                if (inspectionRegion != null)                                                                    // raio aponta para ALGUM objeto (lembre-se da distância do raio)
                 {
-                    hoverObjectName = inspectionRegion.Inspection.inspectionName;                               // tento obter objeto e seu nome
+                    hoverObjectName = inspectionRegion.Inspection.inspectionName;                                   // obtenho nome do objeto atual
                     
-                    if (hoverObjectName != null){                                                               // se objeto é válido 
+                    if (currentObj != hoverObjectName)                                                              // se objeto "apontado" difere do objeto corrente 
+                    {
+                        hoverObjectName = inspectionRegion.Inspection.inspectionName;                               // obtenho nome do objeto 
+                        hoverTime = inspectionRegion.Inspection.inspectionTime;                                     // obtenho tempo do objeto
 
-                        if (currentObj != hoverObjectName){                                                     // se o ponteiro para o objeto difere do objeto válido
-                            hoverTime = inspectionRegion.Inspection.inspectionTime;                             // obtenho o tempo de inspeção do objeto
-                            currentObj = hoverObjectName;                                                       // atualizo o ponteiro de objeto para o objeto válido 
-                        }        
-        
-                        hoverTime -= Time.deltaTime;                                                            // tempo do objeto inspecionado sob hover é decrementado
-                        Debug.Log($"CurrentObjName = {currentObj} | HoverObjectName = {hoverObjectName}");      
-                        Debug.Log($"hoverTime = {hoverTime}");
+                        currentObj = hoverObjectName;                                               // atualizo "ponteiro" string que "aponta" p/ nome do objeto em hover no momento
+                    }
 
-                        if (hoverTime <= 0){                                                                    // tempo de inspeção concluído
-                            InspectionManager.Instance.CheckInspection(inspectionRegion.Inspection);            // chama o método de inspeção
-                        }
+                    hoverTime -= Time.deltaTime;                                                                    // Countdown do objeto em hover
+
+                    Debug.Log($"CurrentObjName = {currentObj} | HoverObjectName = {hoverObjectName} | hoverTime = {hoverTime}");
+
+                    if (hoverTime <= 0)                                                                             // tempo de inspeção do objeto em hover concluído
+                    {
+                        InspectionManager.Instance.CheckInspection(inspectionRegion.Inspection);                    // chama o método de inspeção para aquele objeto em hover
                     }
                 }
-                else                                                                                            // aqui, inspectionRegion é nulo, pois raio aponta p/ fora do objeto...
-                {
-                    currentObj = "";                                                                            // ... então, o ponteiro é resetado p/ nulo (pois agora aponta p/ "vazio")
+                else {                                                                                              // inspectionRegion nulo (raio aponta para fora do objeto)
+                    currentObj = "";                                                                                // "ponteiro" (string) resetado para nulo
                 }
+            }
+            else {                                                                                  // PULO DO GATO: saber que o raio não acerta nada dentro do maxDistance/myLayer
+                currentObj = "";                                                                    // é preciso esse else extra para resetar o currentObj!
             }
             
             Debug.DrawRay(ray.origin, ray.direction * 5, Color.red);      
