@@ -11,9 +11,16 @@ public class InspectionUI : MonoBehaviour
     [SerializeField] private GameObject inspectionList;                     // gameObject que mostra a tela original de InspectionList
     [SerializeField] private GameObject inspectionVictory;                  // gameObject "painel com mensagem de Vitória" 
     [SerializeField] private GameObject inspectionFailed;                   // gameObject "painel com mensagem de GameOver"
-    
-    [SerializeField] private TextMeshProUGUI inspectionTimer;               // atenção: não confundir TextMeshProUGUI com TextMeshPro (verificar no painel Hierarchy do editor) 
 
+    
+    [SerializeField] private TextMeshProUGUI inspectionTimer;               // atenção: não confundir TextMeshProUGUI com TextMeshPro (verificar no painel Hierarchy do editor)
+
+    // [SerializeField] private Flashlight lantern;
+    [SerializeField] private FlashlightCleanVersion lantern;                // arrastar o gameObject da lanterna aqui (objetivo: criar um timer gráfico usando o timeHover do FlashlightCleanVersion.cs)
+
+    [SerializeField] private GameObject singleObjectTimer;
+    [SerializeField] private TextMeshProUGUI singleObjectTimerText;
+    
     private float time;                                                     // poderia ter feito como variável local em Start(), ou global (como feito aqui).
     
     private void Start()
@@ -22,12 +29,17 @@ public class InspectionUI : MonoBehaviour
         InspectionManager.Instance.OnInspectionFailed += InspectionGameOver;         // evento que sinaliza "GameOver" quando tempo limite estourar!
         InspectionManager.Instance.OnCountTime += InspectionTimer;                   // evento de contagem de tempo no painel 
         
+        lantern.OnObjectInspection += SingleObjectTimer;
+        lantern.OnNoObjectInspection += SingleObjectTimerReset;
+        
         // Abaixo: todos os gameObjects já possuem um transform por padrão...
         // Por isso, é possível desabilitar a "caixinha" do gameObject desse script fazendo o comando abaixo: 
         
         inspectionList.SetActive(true);                                        // no editor, gameObject é tudo que mostra os seus componentes
         inspectionVictory.SetActive(false);
         inspectionFailed.SetActive(false);
+        
+        singleObjectTimer.SetActive(false);
         
         // não confundir com componente (uma parte integrante/componente do gameObject)
 
@@ -50,5 +62,25 @@ public class InspectionUI : MonoBehaviour
     private void InspectionTimer(float timeLimit)                   // faz a UI mostrar uma contagem regressiva
     {
         inspectionTimer.text = timeLimit.ToString();
+    }
+
+    
+    // Lógica dos métodos abaixo deveria estar em outro script (não é responsabilidade da UI). Fazer isso depois...
+    // Resolver depois o problema da contagem (ela ocorre de novo, mesmo após uma inspeção bem-sucedida).
+    
+    
+    private void SingleObjectTimer(float hoverTime)
+    {
+        if (hoverTime < 0) return;
+        
+        singleObjectTimer.SetActive(true);
+        int hoverTimeInteger = (int)hoverTime;
+        
+        singleObjectTimerText.text = hoverTimeInteger.ToString();
+    }
+
+    private void SingleObjectTimerReset()
+    {
+        singleObjectTimer.SetActive(false);
     }
 }
