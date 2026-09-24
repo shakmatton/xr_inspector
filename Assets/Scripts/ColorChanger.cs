@@ -42,7 +42,9 @@ public class ColorChanger : MonoBehaviour
         Exemplo: em teoria, Awake de script 1 executaria antes de OnEnable do script 2... mas no Debug.Log, pode ocorrer que o OnEnable do script 2 ocorra antes do Awake do script 1!!!
         Logo, o mais seguro é usar o Start, em vez de OnEnable, nos casos em que houver um Awake presente em algum script do projeto!           */
         
-        InspectionManager.Instance.OnSingleInspected += OnColorChange;              // ATENÇÃO: não fazer "OnColorChange()", pois o objetivo é apenas apontar para o método
+        InspectionManagerCleanVersion.Instance.OnSingleInspected += OnColorChange;
+        
+        // InspectionManager.Instance.OnSingleInspected += OnColorChange;              // ATENÇÃO: não fazer "OnColorChange()", pois o objetivo é apenas apontar para o método
                                                                                     // (inscrição na lista de métodos do evento), e não executar ele de imediato (o callback).
                                                                                     // Lembrar da diferença entre Inscrição X Callback nos eventos!
                                                                                     

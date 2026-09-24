@@ -26,6 +26,14 @@ namespace Scripts
         public Action OnInspectionFailed;
         public Action<float> OnCountTime;
         
+        public Action<float> OnObjectInspectionON;
+        public Action OnNoObjectInspectionOFF;
+        
+        public float hoverTime;                                             // tempo de hover em um objeto
+        private string hoverObjectName;                                     // flag de controle sobre qual é o nome do objeto corrente
+        private string currentObj = "";                                     // "ponteiro" que registra último objeto a sofrer hover
+        
+        
         public float TimeLimit {                                                                
             get {                                                                    
                 return timeLimit;                                                               
@@ -62,6 +70,44 @@ namespace Scripts
             OnInspectionFailed?.Invoke();                
         }
         
+        // ----------------- Inspection Hover methods --------------- //
+        
+        public void InspectionHoverStart(InspectionRegion inspectionRegion)                 
+        {
+            // InspectionHover ON PROGRESS
+            hoverObjectName = inspectionRegion.Inspection.inspectionName;
+            
+            // InspectionHover ON CHANGE
+            if (currentObj != hoverObjectName)                                                                                  
+            {
+                hoverObjectName = inspectionRegion.Inspection.inspectionName;                               
+                hoverTime = inspectionRegion.Inspection.inspectionTime;                                    
+            
+                currentObj = hoverObjectName;                                               
+            }
+            
+            // InspectionHover ON PROGRESS
+            hoverTime -= Time.deltaTime;                                                    
+            OnObjectInspectionON?.Invoke(hoverTime);                                        // atualiza InspectionHoverUI
+            
+            Debug.Log($"CurrentObjName = {currentObj} | HoverObjectName = {hoverObjectName} | hoverTime = {hoverTime}");
+            
+            // InspectionHover FINISHED
+            if (hoverTime <= 0)                                                             
+            {
+                CheckInspection(inspectionRegion.Inspection);                               // realiza inspeção em objeto (após final do tempo de hover sobre ele)
+            }
+        }
+        
+        public void InspectionHoverCancelled(InspectionRegion inspectionRegion)
+        {
+            // currentObj deve ser "resetado", pois o raio não acerta nada dentro do maxDistance/myLayer
+            currentObj = "";
+            OnNoObjectInspectionOFF?.Invoke();                                              // atualiza InspectionHoverUI
+        }
+        
+        // ----------------- Inspection methods --------------- //
+        
         public void CheckInspection(Inspection inspection)                                      
         {
             if (itsOver) return;
@@ -82,6 +128,6 @@ namespace Scripts
             
             StopCoroutine(inspectionTimeCoroutine);                                              
             OnFullInspected?.Invoke();                                                          
-        }   
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace Scripts
     // Scripts que tratam de UI (como esse) já podem ser considerados como UI.
     // Assim, lembrar que a lógica fica toda concentrada no InspectionManager.cs ("cérebro/fonte da verdade"), e os scripts de UI apenas reagem a tudo que já foi processado nele. 
     
-    public class InspectionItem : MonoBehaviour
+    public class InspectionItemCheckbox : MonoBehaviour
     {
         [SerializeField] public TextMeshProUGUI textMeshProUGUI;                     // TextMeshProUGUI deverá ser arrastado aqui aparecer neste inspectionItem
         [SerializeField] public Sprite checkboxNo;                                   // imagem (sprite do checkbox não preenchido) que deverá aparecer neste inspectionItem
@@ -42,7 +42,8 @@ namespace Scripts
                 _checkboxImage.sprite = checkboxNo;                                 // Sprite do _checkboxImage aponta para o sprite original ("checkbox_no")
             }
             
-            InspectionManager.Instance.OnSingleInspected += SingleInspectionCompleted;   // evento do InspectionManager aponta para o callback SingleInspectionCompleted.
+            // InspectionManager.Instance.OnSingleInspected += SingleInspectionCompleted;   // evento do InspectionManager aponta para o callback SingleInspectionCompleted.
+            InspectionManagerCleanVersion.Instance.OnSingleInspected += SingleInspectionCompleted;
         }
 
         private void SingleInspectionCompleted(Inspection inspection)

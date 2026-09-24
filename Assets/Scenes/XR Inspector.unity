@@ -5182,7 +5182,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   interactable: {fileID: 1240873657}
-  hoverTime: 0
 --- !u!1 &1247873230
 GameObject:
   m_ObjectHideFlags: 0
@@ -7100,7 +7099,6 @@ MonoBehaviour:
   inspectionVictory: {fileID: 410448542}
   inspectionFailed: {fileID: 802205710}
   inspectionTimer: {fileID: 1581947093}
-  lantern: {fileID: 1240873661}
   singleObjectTimer: {fileID: 1844351311}
   singleObjectTimerText: {fileID: 267993799}
 --- !u!1 &1842656076
@@ -7504,6 +7502,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1940469250}
   - component: {fileID: 1940469249}
+  - component: {fileID: 1940469251}
   m_Layer: 0
   m_Name: InspectorManager
   m_TagString: Untagged
@@ -7518,7 +7517,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1940469248}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4705ad5d5e44d098ae4db6a38374241, type: 3}
   m_Name: 
@@ -7543,6 +7542,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1940469251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940469248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d423f416681d6d21496dd20b20042f4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Scripts.InspectionManagerCleanVersion
+  inspectionList:
+  - {fileID: 11400000, guid: da7f1054d9693c08180a8a3f8f010f25, type: 2}
+  - {fileID: 11400000, guid: f25a9741be3dd665eb688391e3422060, type: 2}
+  - {fileID: 11400000, guid: 743889b0e91e8ae28847a37963284796, type: 2}
+  timeLimit: 100
+  hoverTime: 0
 --- !u!1 &1959883322
 GameObject:
   m_ObjectHideFlags: 0
