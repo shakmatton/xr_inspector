@@ -1,0 +1,2 @@
+/home/iuri/Documentos/Unity Projects/XR_Inspector/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/cpp/CMakeLists.txt
+/home/iuri/Documentos/Unity Projects/XR_Inspector/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/cpp/GameActivity/CMakeLists.txt

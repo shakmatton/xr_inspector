@@ -1,0 +1,5 @@
+/home/iuri/Documentos/Unity Projects/XR_Inspector/.utmp/RelWithDebInfo/1i491236/arm64-v8a/CMakeFiles/edit_cache.dir
+/home/iuri/Documentos/Unity Projects/XR_Inspector/.utmp/RelWithDebInfo/1i491236/arm64-v8a/CMakeFiles/rebuild_cache.dir
+/home/iuri/Documentos/Unity Projects/XR_Inspector/.utmp/RelWithDebInfo/1i491236/arm64-v8a/GameActivity/CMakeFiles/game.dir
+/home/iuri/Documentos/Unity Projects/XR_Inspector/.utmp/RelWithDebInfo/1i491236/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
+/home/iuri/Documentos/Unity Projects/XR_Inspector/.utmp/RelWithDebInfo/1i491236/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir

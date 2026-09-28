@@ -49,13 +49,16 @@ namespace Scripts
                 
                 if (inspectionRegion != null)                                                    // INSPECTION_HOVER ON START              
                 {
+                    // Indica pro Inspection Manager que esta apontando para a inspectionRegion.Inspection
                     InspectionManagerCleanVersion.Instance.InspectionHoverStart(inspectionRegion);
                 }
-                // else {                                                                           // inspectionRegion nulo (raio aponta para fora do objeto)
-                //     currentObj = "";                                                             // "ponteiro" (string) resetado para nulo
-                // }
+                else
+                {
+                    // Indica pro Inspection Manager que esta apontando para nada (null)
+                }
             }
             else {                                                                                  // INSPECTION_HOVER CANCELLED
+                // Indica pro Inspection Manager que esta apontando para nada (null)
                 InspectionManagerCleanVersion.Instance.InspectionHoverCancelled(inspectionRegion);
             }
             

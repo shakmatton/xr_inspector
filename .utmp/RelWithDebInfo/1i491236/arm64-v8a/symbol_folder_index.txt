@@ -1,0 +1,1 @@
+/home/iuri/Documentos/Unity Projects/XR_Inspector/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/1i491236/obj/arm64-v8a

@@ -70,6 +70,18 @@ namespace Scripts
             OnInspectionFailed?.Invoke();                
         }
         
+        public void ResetTimer()                                                    // Reseta tela de GameOver e faz restart do contador.
+        {
+            if (inspectionTimeCoroutine != null)
+                StopCoroutine(inspectionTimeCoroutine);
+
+            timeLimit = 10f;
+
+            OnCountTime?.Invoke(timeLimit);
+
+            inspectionTimeCoroutine = StartCoroutine(TimeUp());             // "TimeUp()" entre parêntesis, para reinvocar método do tipo coroutine...
+        }
+        
         // ----------------- Inspection Hover methods --------------- //
         
         public void InspectionHoverStart(InspectionRegion inspectionRegion)                 

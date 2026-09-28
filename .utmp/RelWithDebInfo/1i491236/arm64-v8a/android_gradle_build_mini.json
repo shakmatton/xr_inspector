@@ -1,0 +1,28 @@
+{
+  "buildFiles": [
+    "/home/iuri/Documentos/Unity Projects/XR_Inspector/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/cpp/CMakeLists.txt",
+    "/home/iuri/Documentos/Unity Projects/XR_Inspector/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/cpp/GameActivity/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/home/iuri/Unity/Hub/Editor/6000.4.1f1/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/home/iuri/Documentos/Unity Projects/XR_Inspector/.utmp/RelWithDebInfo/1i491236/arm64-v8a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/home/iuri/Unity/Hub/Editor/6000.4.1f1/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/home/iuri/Documentos/Unity Projects/XR_Inspector/.utmp/RelWithDebInfo/1i491236/arm64-v8a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "game::@d02bb112ea9f9c2ed29f": {
+      "artifactName": "game",
+      "abi": "arm64-v8a",
+      "output": "/home/iuri/Documentos/Unity Projects/XR_Inspector/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/1i491236/obj/arm64-v8a/libgame.so",
+      "runtimeFiles": []
+    }
+  }
+}
