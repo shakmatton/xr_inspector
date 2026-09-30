@@ -4,12 +4,13 @@ using UnityEngine;
 public class ResetScene : MonoBehaviour
 {
     [SerializeField] private GameObject resetBtn;
+    private InspectionUI _inspectionUI;
 
     private void Start()
     {
         resetBtn.SetActive(false);
-
-        InspectionManagerCleanVersion.Instance.OnInspectionFailed += ShowResetButton;       // controla aparecimento do botão de reset após tela de GameOver
+        
+        InspectionManager.Instance.OnInspectionFailed += ShowResetButton;       // controla aparecimento do botão de reset após tela de GameOver
     }
 
     private void ShowResetButton()
@@ -21,6 +22,8 @@ public class ResetScene : MonoBehaviour
     {
         resetBtn.SetActive(false);
 
-        InspectionManagerCleanVersion.Instance.ResetTimer();                               // ativa método de reset do timer diretamente no "Manager". 
+        _inspectionUI = resetBtn.AddComponent<InspectionUI>();
+
+        InspectionManager.Instance.ResetTimer();                               // ativa método de reset do timer diretamente no "Manager". 
     }
 }

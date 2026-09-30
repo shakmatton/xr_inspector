@@ -9,7 +9,7 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 namespace Scripts
 {
-    public class FlashlightCleanVersion : MonoBehaviour
+    public class FlashlightCleanVersion_old : MonoBehaviour
     {
         [SerializeField] private LayerMask myLayer;                            
         [SerializeField] private XRBaseInteractable interactable;
@@ -50,7 +50,7 @@ namespace Scripts
                 if (inspectionRegion != null)                                                    // INSPECTION_HOVER ON START              
                 {
                     // Indica pro Inspection Manager que esta apontando para a inspectionRegion.Inspection
-                    InspectionManagerCleanVersion.Instance.InspectionHoverStart(inspectionRegion);
+                    InspectionManagerCleanVersion_old.Instance.InspectionHoverStart(inspectionRegion);
                 }
                 else
                 {
@@ -59,7 +59,7 @@ namespace Scripts
             }
             else {                                                                                  // INSPECTION_HOVER CANCELLED
                 // Indica pro Inspection Manager que esta apontando para nada (null)
-                InspectionManagerCleanVersion.Instance.InspectionHoverCancelled(inspectionRegion);
+                InspectionManagerCleanVersion_old.Instance.InspectionHoverCancelled(inspectionRegion);
             }
             
             Debug.DrawRay(ray.origin, ray.direction * 5, Color.red);      

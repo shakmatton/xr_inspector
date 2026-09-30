@@ -9,9 +9,9 @@ using UnityEngine;
 
 namespace Scripts
 {
-    public class InspectionManagerCleanVersion : MonoBehaviour
+    public class InspectionManagerCleanVersion_old : MonoBehaviour
     {
-        public static InspectionManagerCleanVersion Instance { get; private set; }                        
+        public static InspectionManagerCleanVersion_old Instance { get; private set; }                        
         
         [SerializeField] private List<Inspection> inspectionList;                               
         public Dictionary<Inspection, bool> dictionaryInspection = new();                       
@@ -57,18 +57,6 @@ namespace Scripts
             }
             inspectionTimeCoroutine = StartCoroutine(TimeUp());                          
         }
-
-        private IEnumerator TimeUp()
-        {
-            while (timeLimit > 0)   
-            {
-                yield return new WaitForSeconds(1);      
-                timeLimit--;                             
-
-                OnCountTime?.Invoke(timeLimit);           
-            }
-            OnInspectionFailed?.Invoke();                
-        }
         
         public void ResetTimer()                                                    // Reseta tela de GameOver e faz restart do contador.
         {
@@ -80,6 +68,19 @@ namespace Scripts
             OnCountTime?.Invoke(timeLimit);
 
             inspectionTimeCoroutine = StartCoroutine(TimeUp());             // "TimeUp()" entre parêntesis, para reinvocar método do tipo coroutine...
+        }
+
+        private IEnumerator TimeUp()
+        {
+            while (timeLimit > 0)   
+            {
+                yield return new WaitForSeconds(1);      
+                timeLimit--;                             
+
+                OnCountTime?.Invoke(timeLimit);         
+            }
+            itsOver = true;                              // tempo-limite da simulação esgotado
+            OnInspectionFailed?.Invoke();                
         }
         
         // ----------------- Inspection Hover methods --------------- //

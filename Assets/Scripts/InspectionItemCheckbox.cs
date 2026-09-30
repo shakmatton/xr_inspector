@@ -43,7 +43,7 @@ namespace Scripts
             }
             
             // InspectionManager.Instance.OnSingleInspected += SingleInspectionCompleted;   // evento do InspectionManager aponta para o callback SingleInspectionCompleted.
-            InspectionManagerCleanVersion.Instance.OnSingleInspected += SingleInspectionCompleted;
+            InspectionManagerCleanVersion_old.Instance.OnSingleInspected += SingleInspectionCompleted;
         }
 
         private void SingleInspectionCompleted(Inspection inspection)

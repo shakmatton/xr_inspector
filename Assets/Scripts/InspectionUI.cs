@@ -24,18 +24,12 @@ public class InspectionUI : MonoBehaviour
     
     private void Start()
     {
-        /*
         InspectionManager.Instance.OnFullInspected += ShowVictoryScreen;             // evento de "Vitória"
         InspectionManager.Instance.OnInspectionFailed += InspectionGameOver;         // evento que sinaliza "GameOver" quando tempo limite estourar!
-        InspectionManager.Instance.OnCountTime += InspectionTimer;                   // evento de contagem de tempo no painel 
-        */
+        InspectionManager.Instance.OnCountTime += InspectionTimer;                   // evento de contagem de tempo no painel
         
-        InspectionManagerCleanVersion.Instance.OnFullInspected += ShowVictoryScreen;             // evento de "Vitória"
-        InspectionManagerCleanVersion.Instance.OnInspectionFailed += InspectionGameOver;         // evento que sinaliza "GameOver" quando tempo limite estourar!
-        InspectionManagerCleanVersion.Instance.OnCountTime += InspectionTimer;                   // evento de contagem de tempo no painel
-        
-        InspectionManagerCleanVersion.Instance.OnObjectInspectionON += SingleObjectTimer;
-        InspectionManagerCleanVersion.Instance.OnNoObjectInspectionOFF += SingleObjectTimerReset;
+        InspectionManager.Instance.OnObjectInspectionON += SingleObjectTimer;
+        InspectionManager.Instance.OnNoObjectInspectionOFF += SingleObjectTimerReset;
         
         // Abaixo: todos os gameObjects já possuem um transform por padrão...
         // Por isso, é possível desabilitar a "caixinha" do gameObject desse script fazendo o comando abaixo: 
@@ -48,7 +42,9 @@ public class InspectionUI : MonoBehaviour
         
         // não confundir com componente (uma parte integrante/componente do gameObject)
 
+        // time = InspectionManager.Instance.TimeLimit;
         time = InspectionManager.Instance.TimeLimit;
+        
         inspectionTimer.text = time.ToString();
     }
     
@@ -68,7 +64,6 @@ public class InspectionUI : MonoBehaviour
     {
         inspectionTimer.text = timeLimit.ToString();
     }
-
     
    // VER ARQUIVO INSPECTOR_XR NO DESKTOP (COM CASOS A RESOLVER!)
     
