@@ -1,10 +1,10 @@
 using Scripts;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ResetScene : MonoBehaviour
 {
     [SerializeField] private GameObject resetBtn;
-    private InspectionUI _inspectionUI;
 
     private void Start()
     {
@@ -20,10 +20,6 @@ public class ResetScene : MonoBehaviour
 
     public void ResetCounter()
     {
-        resetBtn.SetActive(false);
-
-        _inspectionUI = resetBtn.AddComponent<InspectionUI>();
-
-        InspectionManager.Instance.ResetTimer();                               // ativa método de reset do timer diretamente no "Manager". 
+        SceneManager.LoadScene("XR Inspector");
     }
 }

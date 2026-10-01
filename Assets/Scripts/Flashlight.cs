@@ -176,9 +176,8 @@ namespace Scripts
         */
 
         #endregion
-
-        #region CÓDIGO ATUAL — VERSÃO UNIFICADA
-
+      
+        
         [SerializeField] private LayerMask myLayer;
         [SerializeField] private XRBaseInteractable interactable;
 
@@ -186,7 +185,7 @@ namespace Scripts
         private float maxDistance = 5f;
         private bool flashlightSelected = false;
 
-        private InspectionRegion inspectionRegion;
+        private Inspection myInspectionObject;
 
 
         private void Start()
@@ -195,50 +194,30 @@ namespace Scripts
             interactable.selectExited.AddListener(OnDeselect);
         }
 
-
         private void OnSelect(SelectEnterEventArgs args)
         {
             flashlightSelected = true;
         }
-
 
         private void OnDeselect(SelectExitEventArgs args)
         {
             flashlightSelected = false;
         }
 
-
         private void Update()
         {
-            if (!flashlightSelected)
-                return;
+            if (!flashlightSelected) return;
 
             ray = new Ray(transform.position, transform.forward);
 
             if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, myLayer))
             {
-                inspectionRegion = hit.collider.gameObject.GetComponent<InspectionRegion>();
+                myInspectionObject = hit.collider.gameObject.GetComponent<InspectionRegion>().Inspection;
 
-                if (inspectionRegion != null)
-                {
-                    // Indica pro Inspection Manager que esta apontando para a inspectionRegion.Inspection
-                    InspectionManager.Instance.InspectionHoverStart(inspectionRegion);
-                }
-                else
-                {
-                    // Indica pro Inspection Manager que esta apontando para nada (null)
-                    InspectionManager.Instance.InspectionHoverCancelled(inspectionRegion);
-                }
+                InspectionManager.Instance.Inspect(myInspectionObject);
             }
-            else
-            {
-                // Indica pro Inspection Manager que esta apontando para nada (null)
-                InspectionManager.Instance.InspectionHoverCancelled(inspectionRegion);
-            }
-
+            
             Debug.DrawRay(ray.origin, ray.direction * 5, Color.red);
         }
-
-        #endregion
     }
 }

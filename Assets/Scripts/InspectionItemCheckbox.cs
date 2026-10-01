@@ -42,8 +42,8 @@ namespace Scripts
                 _checkboxImage.sprite = checkboxNo;                                 // Sprite do _checkboxImage aponta para o sprite original ("checkbox_no")
             }
             
-            // InspectionManager.Instance.OnSingleInspected += SingleInspectionCompleted;   // evento do InspectionManager aponta para o callback SingleInspectionCompleted.
-            InspectionManagerCleanVersion_old.Instance.OnSingleInspected += SingleInspectionCompleted;
+            InspectionManager.Instance.OnSingleInspected += SingleInspectionCompleted;      // mostra uma inspection completada (ckecked) na UI
+            InspectionManager.Instance.OnResetCheckbox += InspectionResetCheckbox;          // reseta uma inspection completada (ckecked) na UI
         }
 
         private void SingleInspectionCompleted(Inspection inspection)
@@ -52,6 +52,11 @@ namespace Scripts
             {
                 _checkboxImage.sprite = checkboxYes;                                    // sprite do checkbox atualizado para checkbox_yes
             }    
+        }
+
+        private void InspectionResetCheckbox()
+        {
+            
         }
     }
 }

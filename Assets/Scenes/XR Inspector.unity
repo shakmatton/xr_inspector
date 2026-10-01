@@ -5283,8 +5283,7 @@ GameObject:
   - component: {fileID: 1240873658}
   - component: {fileID: 1240873657}
   - component: {fileID: 1240873656}
-  - component: {fileID: 1240873660}
-  - component: {fileID: 1240873661}
+  - component: {fileID: 1240873662}
   m_Layer: 0
   m_Name: Flashlight
   m_TagString: Untagged
@@ -5485,23 +5484,7 @@ Transform:
   - {fileID: 543450652963758779}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1240873660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1240873655}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a1578adf6e186dfbb646dfcd76235e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Scripts.Flashlight
-  myLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  interactable: {fileID: 1240873657}
---- !u!114 &1240873661
+--- !u!114 &1240873662
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5510,9 +5493,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1240873655}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821d2e5716c6932c5afce5a62b3bcae8, type: 3}
+  m_Script: {fileID: 11500000, guid: 27e5a91fe1154c4fb4923f9d205f8a7c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Scripts.FlashlightCleanVersion
+  m_EditorClassIdentifier: Assembly-CSharp::Scripts.Flashlight
   myLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -7836,8 +7819,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1940469250}
-  - component: {fileID: 1940469249}
-  - component: {fileID: 1940469251}
+  - component: {fileID: 1940469252}
   m_Layer: 0
   m_Name: InspectorManager
   m_TagString: Untagged
@@ -7845,23 +7827,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1940469249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1940469248}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4705ad5d5e44d098ae4db6a38374241, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Scripts.InspectionManager
-  inspectionList:
-  - {fileID: 11400000, guid: da7f1054d9693c08180a8a3f8f010f25, type: 2}
-  - {fileID: 11400000, guid: f25a9741be3dd665eb688391e3422060, type: 2}
-  - {fileID: 11400000, guid: 743889b0e91e8ae28847a37963284796, type: 2}
-  timeLimit: 100
 --- !u!4 &1940469250
 Transform:
   m_ObjectHideFlags: 0
@@ -7877,7 +7842,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1940469251
+--- !u!114 &1940469252
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7886,14 +7851,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1940469248}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d423f416681d6d21496dd20b20042f4f, type: 3}
+  m_Script: {fileID: 11500000, guid: 542bd17aba564ad5ae62b5865c71889f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Scripts.InspectionManagerCleanVersion
+  m_EditorClassIdentifier: Assembly-CSharp::Scripts.InspectionManager
   inspectionList:
   - {fileID: 11400000, guid: da7f1054d9693c08180a8a3f8f010f25, type: 2}
   - {fileID: 11400000, guid: f25a9741be3dd665eb688391e3422060, type: 2}
   - {fileID: 11400000, guid: 743889b0e91e8ae28847a37963284796, type: 2}
-  timeLimit: 5
+  timeLimit: 10
   hoverTime: 0
 --- !u!1 &1959883322
 GameObject:
