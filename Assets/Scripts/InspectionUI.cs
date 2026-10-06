@@ -73,6 +73,8 @@ public class InspectionUI : MonoBehaviour
         inspectionList.SetActive(true);   
         inspectionVictory.SetActive(false);
         inspectionFailed.SetActive(false);
+        
+        // lembrar de fazer depois o transform do player voltar para a origem...
     }
     
     

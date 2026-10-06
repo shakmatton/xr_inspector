@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
@@ -185,9 +184,6 @@ namespace Scripts
         private float maxDistance = 5f;
         private bool flashlightSelected = false;
 
-        private Inspection myInspectionObject;
-
-
         private void Start()
         {
             interactable.selectEntered.AddListener(OnSelect);
@@ -212,9 +208,20 @@ namespace Scripts
 
             if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, myLayer))
             {
-                myInspectionObject = hit.collider.gameObject.GetComponent<InspectionRegion>().Inspection;
+                InspectionRegion inspectionRegion = hit.collider.gameObject.GetComponent<InspectionRegion>();
 
-                InspectionManager.Instance.Inspect(myInspectionObject);
+                if (inspectionRegion != null) // caso 1 (de segurança): caso um objeto desimportante (ex.: uma parede) esteja sem querer na mesma layer dos objetos importantes
+                {
+                    InspectionManager.Instance.Inspect(inspectionRegion.Inspection);   // caso 2: raio realmente aponta pra um objeto importante na layer correta
+                }
+                else
+                {
+                    InspectionManager.Instance.Inspect(null);       // caso bata em uma parede, por exemplo, retorna null
+                }
+            }
+            else
+            {
+                InspectionManager.Instance.Inspect(null);           // caso 3: raio apontou completamente pra fora da cena
             }
             
             Debug.DrawRay(ray.origin, ray.direction * 5, Color.red);

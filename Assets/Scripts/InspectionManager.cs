@@ -132,8 +132,7 @@ namespace Scripts
         private string currentObj = "";                                                         // "ponteiro" que registra último objeto a sofrer hover
 
         public float TimeLimit                                                                  // Property (getter)
-        {
-            get
+        { get
             {
                 return timeLimit;                                                               // útil para o InspectionUI.cs
             }
@@ -206,12 +205,12 @@ namespace Scripts
         
         public void Inspect (Inspection inspection) {
             
+            if (itsOver) return;
+            if (!dictionaryInspection.ContainsKey(inspection)) return;                          // Checagem de segurança (caso não haja nenhuma chave inspection arrastada para a lista)
+            
             if (inspection != null)
             {
-                // InspectionStarted(inspection);   // fazer InspectionStarted, InspectionCancelled e InspectionCompleted depois...
-                
-                
-                // "InspectionHover" ON PROGRESS
+                // "InspectionStarted" ON PROGRESS
                 hoverObjectName = inspection.inspectionName;
 
                 // "InspectionHover" ON CHANGE
@@ -228,16 +227,18 @@ namespace Scripts
 
                 Debug.Log($"CurrentObjName = {currentObj} | HoverObjectName = {hoverObjectName} | hoverTime = {hoverTime}");
 
-                // "InspectionHover" FINISHED
+                // "InspectionCompleted" FINISHED
                 if (hoverTime <= 0)
                 {
                     CheckInspection(inspection);                                  // realiza inspeção em objeto (após final do tempo de hover sobre ele)
                 }
             }
-
-            // currentObj deve ser "resetado", pois o raio não acerta nada dentro do maxDistance/myLayer
-            currentObj = "";
-            OnNoObjectInspectionOFF?.Invoke();                                                 // atualiza InspectionHoverUI
+            else
+            {
+                // InspectionCancelled ON CANCEL
+                currentObj = "";    // currentObj "resetado" (raio não acerta nada dentro do maxDistance/myLayer)
+                OnNoObjectInspectionOFF?.Invoke();          // atualiza InspectionHoverUI
+            }
         }
 
         
@@ -245,10 +246,6 @@ namespace Scripts
 
         public void CheckInspection(Inspection inspection)                                     
         {
-            if (itsOver) return;
-            
-            if (!dictionaryInspection.ContainsKey(inspection)) return;                          // Checagem de segurança (caso não haja nenhuma chave inspection arrastada para a lista)
-
             if (dictionaryInspection[inspection] == false)                                      // se houver um item do dicionário contendo false...
             {
                 // dictionaryInspection.Add(inspection, true);                                  // ...sinaliza esse item agora como contendo true (par "inspection, true" adicionado).
