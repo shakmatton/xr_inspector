@@ -43,7 +43,7 @@ namespace Scripts
             }
             
             InspectionManager.Instance.OnSingleInspected += SingleInspectionCompleted;      // mostra uma inspection completada (ckecked) na UI
-            InspectionManager.Instance.OnResetCheckbox += InspectionResetCheckbox;          // reseta uma inspection completada (ckecked) na UI
+            // InspectionManager.Instance.OnResetCheckbox += InspectionResetCheckbox;          // reseta uma inspection completada (ckecked) na UI
         }
 
         private void SingleInspectionCompleted(Inspection inspection)
@@ -54,9 +54,7 @@ namespace Scripts
             }    
         }
 
-        private void InspectionResetCheckbox()
-        {
-            
-        }
+        /*private void InspectionResetCheckbox()
+        { }*/
     }
 }

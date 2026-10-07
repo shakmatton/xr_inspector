@@ -28,10 +28,10 @@ public class InspectionUI : MonoBehaviour
         InspectionManager.Instance.OnInspectionFailed += InspectionGameOver;         // evento que sinaliza "GameOver" quando tempo limite estourar!
         InspectionManager.Instance.OnCountTime += InspectionTimer;                   // evento de contagem de tempo no painel (mostra segundos sendo contados)
         
-        InspectionManager.Instance.OnObjectInspectionON += SingleObjectTimer;
-        InspectionManager.Instance.OnNoObjectInspectionOFF += SingleObjectTimerReset;
+        InspectionManager.Instance.ONObject += SingleObjectTimer;
+        InspectionManager.Instance.OFFObject += SingleObjectTimerReset;
 
-        InspectionManager.Instance.OnResetAll += InspectionResetAll;
+        // InspectionManager.Instance.OnResetAll += InspectionResetAll;
         
         // Abaixo: todos os gameObjects já possuem um transform por padrão...
         // Por isso, é possível desabilitar a "caixinha" do gameObject desse script fazendo o comando abaixo: 
@@ -53,12 +53,14 @@ public class InspectionUI : MonoBehaviour
     {
         inspectionList.SetActive(false);
         inspectionFailed.SetActive(true);
+        // singleObjectTimer.SetActive(false);
     }
 
     private void ShowVictoryScreen()                                // desabilita o painel com as tarefas (inspectionList), e habilita o painel de Inspections Completed ("Vitória").
     {
         inspectionList.SetActive(false);
         inspectionVictory.SetActive(true);
+        // singleObjectTimer.SetActive(false);
     }
     
     private void InspectionTimer(float timeLimit)                   // faz a UI mostrar uma contagem regressiva
@@ -66,7 +68,7 @@ public class InspectionUI : MonoBehaviour
         inspectionTimer.text = timeLimit.ToString();
     }
     
-    private void InspectionResetAll(float timeLimit)                // botão Reset faz a UI da simulação voltar ao seu estado original 
+    /*private void InspectionResetAll(float timeLimit)                // botão Reset faz a UI da simulação voltar ao seu estado original 
     {
         inspectionTimer.text = timeLimit.ToString();
         
@@ -75,14 +77,15 @@ public class InspectionUI : MonoBehaviour
         inspectionFailed.SetActive(false);
         
         // lembrar de fazer depois o transform do player voltar para a origem...
-    }
+    } */
     
     
    // VER ARQUIVO INSPECTOR_XR NO DESKTOP (COM CASOS A RESOLVER!)
     
     private void SingleObjectTimer(float hoverTime)                // consigo deixar o pequeno trecho de lógica aqui em algum outro lugar (InspectionManager)? 
     {
-        if (hoverTime < 0) return;
+        if (hoverTime < 0) return;                                 // previne que método ative o contador do objeto inspecionado
+        
         singleObjectTimer.SetActive(true);
         
         int hoverTimeInteger = (int)hoverTime;
