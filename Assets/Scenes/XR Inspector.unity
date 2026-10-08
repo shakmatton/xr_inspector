@@ -2600,6 +2600,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   resetBtn: {fileID: 584896274}
+--- !u!1 &597312869
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 597312870}
+  m_Layer: 0
+  m_Name: PlayerStart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &597312870
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597312869}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.02932, y: 0.125, z: 1.27997}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &619899598
 GameObject:
   m_ObjectHideFlags: 0
@@ -7858,8 +7889,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: da7f1054d9693c08180a8a3f8f010f25, type: 2}
   - {fileID: 11400000, guid: f25a9741be3dd665eb688391e3422060, type: 2}
   - {fileID: 11400000, guid: 743889b0e91e8ae28847a37963284796, type: 2}
-  timeLimit: 15
-  hoverTime: 0
+  timeLimit: 5
+  hoverObjectTime: 0
 --- !u!1 &1959883322
 GameObject:
   m_ObjectHideFlags: 0
@@ -13126,3 +13157,4 @@ SceneRoots:
   - {fileID: 1240873659}
   - {fileID: 1829957347}
   - {fileID: 1940469250}
+  - {fileID: 597312870}

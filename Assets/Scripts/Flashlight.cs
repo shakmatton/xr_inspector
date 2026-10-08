@@ -176,7 +176,6 @@ namespace Scripts
 
         #endregion
       
-        
         [SerializeField] private LayerMask myLayer;
         [SerializeField] private XRBaseInteractable interactable;
 
@@ -209,19 +208,21 @@ namespace Scripts
             if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, myLayer))
             {
                 InspectionRegion inspectionRegion = hit.collider.gameObject.GetComponent<InspectionRegion>();
-
-                if (inspectionRegion != null) // caso 1 (de segurança): caso um objeto desimportante (ex.: uma parede) esteja sem querer na mesma layer dos objetos importantes
+                
+                // Se Raycast acerta algo: o objeto possui InspectionRegion (Sim/Não)?
+                if (inspectionRegion != null)    // "O raio atingiu algo que possui InspectionRegion...
                 {
-                    InspectionManager.Instance.Inspect(inspectionRegion.Inspection);   // caso 2: raio realmente aponta pra um objeto importante na layer correta
+                    InspectionManager.Instance.InspectionUpdate(inspectionRegion.Inspection);   // ...então Inspection do componente é enviada para o InspectionManager."
                 }
-                else
+                else                                
                 {
-                    InspectionManager.Instance.Inspect(null);       // caso bata em uma parede, por exemplo, retorna null
+                    InspectionManager.Instance.InspectionUpdate(null);       // "O raio atingiu alguma coisa, mas esse GameObject não possui InspectionRegion."
                 }
             }
+            // Se Raycast não acerta nada: 
             else
             {
-                InspectionManager.Instance.Inspect(null);           // caso 3: raio apontou completamente pra fora da cena
+                InspectionManager.Instance.InspectionUpdate(null);           // "O Raycast não atingiu absolutamente nenhum collider válido."
             }
             
             Debug.DrawRay(ray.origin, ray.direction * 5, Color.red);

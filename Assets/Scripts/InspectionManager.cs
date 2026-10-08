@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation;
 
 namespace Scripts
 {
@@ -113,24 +114,22 @@ namespace Scripts
         // Abaixo: todos os "public Action" retornam void por padrão! Lembrar disso em ColorChanger.cs (ler comentários ali).
         // Há ainda outras maneiras de contornar isso, customizando métodos usando Func<> ou delegates... mas, por agora, vamos usar Action.
 
-        public Action<Inspection> OnSingleInspected;                                            // evento de inspeção de um item do dicionário
-        public Action OnFullInspected;                                                          // evento de inspeção de todos os items do dicionário
-        public Action OnInspectionFailed;
-        public Action<float> OnCountTime;
-
-        public Action<float> ONObject;
-        public Action OFFObject;
+                                                    
+        public Action OnFullInspected;                                                          
+        public Action OnInspectionFailed;                                                       
+        public Action<float> OnCountTime;                                                       // timer da simulação
         
-        /* eventos disparados quando a simulação é resetada
-        public Action<float> OnResetAll;
-        public Action OnResetCheckbox;  */
+        public Action<Inspection> OnInspectionStarted;
+        public Action<float> OnInspectionTick;
+        public Action<Inspection> OnInspectionCompleted;
+        public Action<Inspection> OnInspectionCanceled;
 
         // Obs.: ver comentários do script ColorChanger.cs, sobre o uso de Awake X OnEnable X Start
 
-        public float hoverObjectTime;                                                                 // tempo de hover em um objeto
-        private string hoverObjectName;                                                         // flag de controle sobre qual é o nome do objeto corrente
-        private string currentObj = "";                                                         // "ponteiro" que registra último objeto a sofrer hover
-
+        public float hoverObjectTime;                                                           // tempo de hover em um objeto
+        
+        private Inspection lastInspection = null;                                               // último objeto inspecionado
+        
         public float TimeLimit                                                                  // Property (getter)
         { get
             {
@@ -156,27 +155,7 @@ namespace Scripts
             
             inspectionTimeCoroutine = StartCoroutine(TimeUp());      // inicio uma Coroutine (abaixo), para esperar o tempo-limite para a falha do procedimento.
         }
-
-        /* Método FullReset() parcialmente substituído por SceneManager.LoadScene("XR Inspector"), do método ResetCounter (em ResetScene.cs).
-        public void FullReset()                                                                // Reseta tela de GameOver e faz restart do contador.
-        {
-            if (inspectionTimeCoroutine != null)                                               // O botão de Reset deve interromper qualquer coroutine em andamento.
-                StopCoroutine(inspectionTimeCoroutine);
-
-            timeOver = false;                                                                   // reset da simulação implica em resetar o "timeOver" para false.
-
-            foreach (Inspection inspection in inspectionList)                                  // todas as inspeções são resetadas com false (voltam para o estado inicial)
-            {
-                dictionaryInspection[inspection] = false;
-            }
-
-            timeLimit = 10f;                                                                   // novo valor de timeLimit definido por padrão
-            OnResetAll?.Invoke(timeLimit);                                                     // UI mostra uma contagem regressiva (método InspectionTimer, em InspectionUI.cs)
-            OnResetCheckbox?.Invoke();
-
-            inspectionTimeCoroutine = StartCoroutine(TimeUp());                         // Reinicia contador da simulação. "TimeUp()" com parêntesis reinvoca método.
-        }*/
-        
+ 
 
         private IEnumerator TimeUp()                                                            // vai disparar eventos de Sucesso ou Falha de inspeção (futuramente ouvidos por método de InspectionUI.cs)
         {
@@ -188,74 +167,65 @@ namespace Scripts
                 OnCountTime?.Invoke(timeLimit);                                                 // dispara evento de contagem para um Timer de algum objeto específico
             }
 
-            timeOver = true;                                                                     // tempo-limite da simulação esgotado
+            timeOver = true;                                                                    // tempo-limite da simulação esgotado
             OnInspectionFailed?.Invoke();                                                       // dispara evento de falha geral de inspeção, pois o tempo foi esgotado aqui.
         }
         
-        // private void InspectionChanged(Inspection inspection)
-        // {
-        //     // "InspectionHover" ON PROGRESS
-        //     hoverObjectName = inspection.inspectionName;
-        //     if (currentObj != hoverObjectName)
-        //     {
-        //         InspectionCancelled(inspection);
-        //     }
-        // }
         
+        // retorna um bool considerando a existência da inspection no dicionário, ou se a inspection já tinha sido inspecionada antes
+        private bool IsCompleted(Inspection inspection)                                         
+        {                                                                       
+            return !dictionaryInspection.ContainsKey(inspection) || dictionaryInspection[inspection];
+        }
         
-        public void Inspect (Inspection inspection) {
-            
-            if (timeOver) return;                                          // se tempo da simulação está esgotado, não fazer mais nada. 
-            
-            /* Checagem de segurança: verifica se inspection recebida (Inspection arrastada no Inspector) existe como chave no dictionaryInspection. */
-            if (!dictionaryInspection.ContainsKey(inspection)) return;     // ("Se essa Inspection não estiver cadastrada no dicionário, não fazer nada.")
-            
-            if (inspection != null)                                     // inspection existe 
-            {
-                // "InspectionStarted" ON START
-                hoverObjectName = inspection.inspectionName;
-
-                // "InspectionChanged" ON CHANGE
-                if (currentObj != hoverObjectName)
+        // lógica de controle para inspeções dos objetos na cena 
+        public void InspectionUpdate (Inspection inspection) {                                  // "tick" do Timer da inspection 
+            if (timeOver || inspection == null || IsCompleted(inspection))                   // considera casos em que a inspection pode ser cancelada 
+            {                                                                                   // (tempo esgotado, inspection nula ou já completada)
+                
+                if (lastInspection != null)                                                  // caso do raio que muda de um objeto diretamente para o outro
                 {
-                    hoverObjectName = inspection.inspectionName;
-                    hoverObjectTime = inspection.inspectionTime;           // hoverObjectTime é o tempo do objeto inspecionado
-                    currentObj = hoverObjectName;                          // atualizo "ponteiro" string que "aponta" p/ nome do objeto em hover no momento
+                    OnInspectionCanceled(inspection);                                           // cancelamento do timer e envio da nova inspection para início de novo timer
+                    // Debug.Log("Cancelado!");
                 }
-
-                // "InspectionHover" ON PROGRESS
-                hoverObjectTime -= Time.deltaTime;                               // Countdown do objeto em hover
-                ONObject?.Invoke(hoverObjectTime);                               // atualiza InspectionHoverUI
-
-                Debug.Log($"CurrentObjName = {currentObj} | HoverObjectName = {hoverObjectName} | hoverObjectTime = {hoverObjectTime}");
-
-                // "InspectionCompleted" ON FINISH
-                if (hoverObjectTime < 1)
-                {
-                    CheckInspection(inspection);                           // realiza inspeção em objeto (após final do tempo de hover sobre ele)
-                }
+                lastInspection = null;                                                          // reseta o "lastInspection" anterior para null
+                
+                return;                                                                         // sai do método sem fazer mais nada. 
             }
-            else
+            
+            // ON CHANGE
+            if (lastInspection != inspection)
             {
-                // InspectionCancelled ON CANCEL
-                currentObj = "";                  // currentObj "resetado" (raio não acerta nada dentro do maxDistance/myLayer)
-                OFFObject?.Invoke();              // atualiza InspectionHoverUI
+                lastInspection = inspection;
+                hoverObjectTime = inspection.inspectionTime;                                    // hoverObjectTime é o tempo do objeto inspecionado
+                OnInspectionStarted?.Invoke(inspection);                                        // Invoca o Start da inspeção
+            }
+
+            // ON TICK
+            hoverObjectTime -= Time.deltaTime;                                                  // Countdown do objeto em hover
+            OnInspectionTick?.Invoke(hoverObjectTime);                                          // Invoca o Tick da inspeção
+            
+            // ON FINISH
+            if (hoverObjectTime < 1)                                                            
+            {
+                CompleteInspection(inspection);                                                 // realiza inspeção após tempo total do objeto sob hover
             }
         }
         
-        
-        public void CheckInspection(Inspection inspection)                                     
+        // lógica da inspeção após tempo total do objeto
+        public void CompleteInspection(Inspection inspection)                                     
         {
-            if (dictionaryInspection[inspection] == false)                                      // se houver um item do dicionário contendo false...
-            {
-                /* dictionaryInspection.Add(inspection, true);
-                Sinaliza o item agora como contendo true (par "inspection, true" adicionado) porém, ele adiciona uma inspection uma vez e não consegue continuar adicionando depois  */
+            /* dictionaryInspection.Add(inspection, true);
+            Sinaliza o item agora como contendo true (par "inspection, true" adicionado) porém, ele adiciona uma inspection uma vez e não consegue continuar adicionando depois  */
 
-                dictionaryInspection[inspection] = true;                                        // logo, esse é o workaround para o comentário acima
+            dictionaryInspection[inspection] = true;                                           // logo, esse é o workaround para o comentário acima
 
-                OnSingleInspected?.Invoke(inspection);                                          // dispara evento de inspeção de objeto único inspecionado (false -> true)
-                Debug.Log($"Inspection {inspection.name} has been inspected");                  // debug de inspeção
-            }
+            OnInspectionCompleted?.Invoke(inspection);                                         // dispara evento de inspeção de objeto único inspecionado (false -> true)
+            
+            lastInspection = null;                                                             // após inspeção, lastInspection vira nulo para entrar no caso do InspectionUpdate() 
+            
+            Debug.Log($"Inspection {inspection.name} has been inspected");                     // debug de inspeção
+          
 
             /* Acima: lógica que resulta no evento OnSingleInspected (inspeção de objeto único).
                Abaixo: lógica que resulta no evento OnFullInspected (inspeção de todos os objetos).
@@ -271,7 +241,8 @@ namespace Scripts
 
             foreach (KeyValuePair<Inspection, bool> dictionaryPair in dictionaryInspection)
             {
-                if (dictionaryPair.Value == false) return;                                     // se ainda houver algum objeto não inspecionado, sai do método para evitar chegar ao ponto de "StopCoroutine" abaixo.
+                if (dictionaryPair.Value == false) return;                                     // se ainda houver algum objeto não inspecionado,
+                                                                                               // sai do método para evitar chegar ao ponto de "StopCoroutine" abaixo.
             }
 
             // Se chegar até aqui, então "ALL INSPECTIONS COMPLETED!"

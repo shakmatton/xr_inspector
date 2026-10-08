@@ -14,9 +14,6 @@ public class InspectionUI : MonoBehaviour
     
     [SerializeField] private TextMeshProUGUI inspectionTimer;               // atenção: não confundir TextMeshProUGUI com TextMeshPro (verificar no painel Hierarchy do editor)
 
-    // [SerializeField] private Flashlight lantern;
-    // [SerializeField] private FlashlightCleanVersion lantern;                // arrastar o gameObject da lanterna aqui (objetivo: criar um timer gráfico usando o timeHover do FlashlightCleanVersion.cs)
-
     [SerializeField] private GameObject singleObjectTimer;
     [SerializeField] private TextMeshProUGUI singleObjectTimerText;
     
@@ -27,11 +24,11 @@ public class InspectionUI : MonoBehaviour
         InspectionManager.Instance.OnFullInspected += ShowVictoryScreen;             // evento de "Vitória"
         InspectionManager.Instance.OnInspectionFailed += InspectionGameOver;         // evento que sinaliza "GameOver" quando tempo limite estourar!
         InspectionManager.Instance.OnCountTime += InspectionTimer;                   // evento de contagem de tempo no painel (mostra segundos sendo contados)
-        
-        InspectionManager.Instance.ONObject += SingleObjectTimer;
-        InspectionManager.Instance.OFFObject += SingleObjectTimerReset;
 
-        // InspectionManager.Instance.OnResetAll += InspectionResetAll;
+        InspectionManager.Instance.OnInspectionTick += SingleObjectTimer;
+        InspectionManager.Instance.OnInspectionStarted += OnInspectionStart;
+        InspectionManager.Instance.OnInspectionCanceled += SingleObjectTimerReset;
+        InspectionManager.Instance.OnInspectionCompleted += SingleObjectTimerReset;
         
         // Abaixo: todos os gameObjects já possuem um transform por padrão...
         // Por isso, é possível desabilitar a "caixinha" do gameObject desse script fazendo o comando abaixo: 
@@ -49,18 +46,22 @@ public class InspectionUI : MonoBehaviour
         inspectionTimer.text = time.ToString();
     }
     
+
     private void InspectionGameOver()                               // desabilita o painel com as tarefas (inspectionList), e habilita o painel de Inspections Failed ("GameOver").
     {
         inspectionList.SetActive(false);
         inspectionFailed.SetActive(true);
-        // singleObjectTimer.SetActive(false);
     }
 
     private void ShowVictoryScreen()                                // desabilita o painel com as tarefas (inspectionList), e habilita o painel de Inspections Completed ("Vitória").
     {
         inspectionList.SetActive(false);
         inspectionVictory.SetActive(true);
-        // singleObjectTimer.SetActive(false);
+    }
+    
+    private void OnInspectionStart(Inspection obj)
+    {
+        singleObjectTimer.SetActive(true);
     }
     
     private void InspectionTimer(float timeLimit)                   // faz a UI mostrar uma contagem regressiva
@@ -68,31 +69,15 @@ public class InspectionUI : MonoBehaviour
         inspectionTimer.text = timeLimit.ToString();
     }
     
-    /*private void InspectionResetAll(float timeLimit)                // botão Reset faz a UI da simulação voltar ao seu estado original 
-    {
-        inspectionTimer.text = timeLimit.ToString();
-        
-        inspectionList.SetActive(true);   
-        inspectionVictory.SetActive(false);
-        inspectionFailed.SetActive(false);
-        
-        // lembrar de fazer depois o transform do player voltar para a origem...
-    } */
-    
-    
-   // VER ARQUIVO INSPECTOR_XR NO DESKTOP (COM CASOS A RESOLVER!)
-    
     private void SingleObjectTimer(float hoverTime)                // consigo deixar o pequeno trecho de lógica aqui em algum outro lugar (InspectionManager)? 
     {
         if (hoverTime < 0) return;                                 // previne que método ative o contador do objeto inspecionado
-        
-        singleObjectTimer.SetActive(true);
         
         int hoverTimeInteger = (int)hoverTime;
         singleObjectTimerText.text = hoverTimeInteger.ToString();
     }
 
-    private void SingleObjectTimerReset()
+    private void SingleObjectTimerReset(Inspection inspection)
     {
         singleObjectTimer.SetActive(false);
     }
